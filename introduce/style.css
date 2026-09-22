@@ -1,0 +1,156 @@
+/* 自我介绍页面的外部样式表 */
+/* 演示了元素选择器、类选择器、id选择器、后代选择器、伪类选择器 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 元素选择器 */
+body {
+    font-family: "Microsoft YaHei", sans-serif;
+    background: #f4f6fb;
+    color: #333;
+    line-height: 1.7;
+}
+
+/* 类选择器 */
+.nav {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    padding: 12px 20px;
+}
+.nav a {
+    color: #4a90d9;
+    text-decoration: none;
+    margin: 0 12px;
+    font-size: 15px;
+}
+
+/* 伪类选择器 */
+.nav a:hover {
+    color: #2a6db5;
+    text-decoration: underline;
+}
+
+main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 30px 20px 50px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 26px;
+    color: #2c3e50;
+    margin-bottom: 6px;
+}
+.page-sub {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/* 后代选择器:main里面的section标题 */
+main section h2 {
+    font-size: 19px;
+    color: #4a90d9;
+    border-left: 4px solid #4a90d9;
+    padding-left: 10px;
+    margin: 32px 0 12px;
+}
+
+section p {
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+/* 照片部分 */
+.photo-box {
+    text-align: center;
+    margin: 16px 0;
+}
+.photo-box img {
+    width: 340px;
+    max-width: 90%;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+.photo-box figcaption {
+    color: #999;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+/* 兴趣爱好用无序列表 */
+.hobby-list {
+    list-style: none;
+    margin-top: 10px;
+}
+.hobby-list li {
+    display: inline-block;
+    background: #eef4fb;
+    border: 1px solid #c9def2;
+    color: #2c3e50;
+    padding: 5px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    margin: 0 8px 8px 0;
+}
+
+/* 学习计划用有序列表 */
+.plan-list {
+    margin: 10px 0 0 30px;
+}
+.plan-list li {
+    margin: 6px 0;
+    font-size: 15px;
+}
+
+/* 课程表 */
+.course-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: #fff;
+}
+.course-table th,
+.course-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+.course-table th {
+    background: #eef4fb;
+    color: #2c3e50;
+}
+
+/* 类选择器:提示框 */
+.tip-box {
+    background: #fff;
+    border: 1px dashed #ccc;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-top: 24px;
+    color: #777;
+    font-size: 14px;
+}
+.tip-box a {
+    color: #4a90d9;
+    text-decoration: none;
+}
+.tip-box a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 22px 20px;
+    border-top: 1px solid #e5e5e5;
+    color: #999;
+    font-size: 13px;
+}

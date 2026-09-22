@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页整体布局课后作业 · 汤智科</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f4f6fb;
+            color: #333;
+            line-height: 1.75;
+        }
+
+        /* 顶部 */
+        .head {
+            background: #2c3e50;
+            text-align: center;
+            padding: 38px 20px 32px;
+            color: #fff;
+        }
+        .head h1 { font-size: 24px; letter-spacing: 2px; }
+        .head p { font-size: 13px; color: #bbb; margin-top: 6px; }
+
+        /* 锚点导航 */
+        .nav {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+            padding: 11px 20px;
+        }
+        .nav a {
+            color: #4a90d9;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .nav a:hover { text-decoration: underline; }
+
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 28px 20px 60px;
+        }
+
+        section { margin-bottom: 36px; }
+        section > h2 {
+            font-size: 19px;
+            color: #2c3e50;
+            border-left: 4px solid #4a90d9;
+            padding-left: 10px;
+            margin-bottom: 14px;
+        }
+        section h3 { font-size: 15px; color: #444; margin: 18px 0 8px; }
+        section p { font-size: 14px; color: #555; margin-bottom: 6px; }
+
+        .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 18px 22px;
+        }
+
+        /* 表格 */
+        .t {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        .t th, .t td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            font-size: 13px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .t th { background: #eef4fb; text-align: center; white-space: nowrap; }
+        .t code {
+            background: #f7f9fb;
+            border: 1px solid #e0e6ec;
+            border-radius: 3px;
+            padding: 0 4px;
+            font-family: Consolas, monospace;
+            font-size: 12px;
+            color: #c0392b;
+        }
+
+        /* 代码块 */
+        pre.code {
+            background: #f7f9fb;
+            border: 1px solid #e0e6ec;
+            border-radius: 4px;
+            padding: 14px 16px;
+            overflow-x: auto;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #444;
+            margin: 10px 0;
+        }
+        .cm { color: #1e8c4a; }   /* 注释颜色 */
+
+        /* 简答的列表 */
+        .a-list { margin: 6px 0 6px 24px; font-size: 14px; color: #555; }
+        .a-list li { margin: 6px 0; }
+
+        /* 父相子绝示意图,直接用div画 */
+        .draw { text-align: center; padding: 10px 0; }
+        .father {
+            position: relative;   /* 父相 */
+            display: inline-block;
+            width: 320px;
+            height: 170px;
+            border: 2px dashed #4a90d9;
+            border-radius: 6px;
+            background: #f7fbff;
+            text-align: left;
+        }
+        .father .fl {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            font-size: 12px;
+            color: #4a90d9;
+        }
+        .father .son {
+            position: absolute;   /* 子绝 */
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            background: #d8ecfb;
+            border-top: 2px solid #4a90d9;
+            border-radius: 0 0 4px 4px;
+            font-size: 12px;
+            color: #2c3e50;
+            text-align: center;
+            line-height: 40px;
+        }
+        .father .tip2 {
+            position: absolute;
+            right: 8px;
+            top: 42px;
+            font-size: 11px;
+            color: #999;
+            text-align: right;
+        }
+
+        /* ============ 作业效果演示:六张图文卡片 ============ */
+        .demo-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            list-style: none;
+        }
+        .demo-box li {
+            width: calc(33.333% - 8px);
+            position: relative;    /* 修复bug3:父相 */
+            overflow: hidden;      /* 修复bug1:裁掉溢出 */
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .demo-box img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+            transition: all .6s;   /* 修复bug2:transition写在默认状态 */
+        }
+        .demo-box li:hover img {
+            transform: scale(1.2); /* hover里只写transform */
+        }
+        .demo-box .txt {
+            position: absolute;    /* 子绝 */
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 38px;
+            background: rgba(0, 0, 0, .6);
+            color: #fff;
+            font-size: 12px;
+            padding: 7px 10px;
+            overflow: hidden;
+            transition: all .6s;   /* 移入移出都有动画 */
+        }
+        .demo-box li:hover .txt { height: 100px; }
+        /* 奇数卡片悬浮文字铺满整张卡片 */
+        .demo-box li:nth-child(odd):hover .txt { height: 100%; }
+        .demo-box .txt strong { display: block; font-size: 13px; margin-bottom: 2px; }
+
+        /* 回到顶部按钮,纯CSS不用js */
+        .backtop {
+            position: fixed;
+            left: 18px;
+            bottom: 22px;
+            width: 48px;
+            height: 48px;
+            background: #4a90d9;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 48px;
+            font-size: 12px;
+            text-decoration: none;
+            opacity: .6;
+            transition: all .3s;
+        }
+        .backtop:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px 20px;
+            border-top: 1px solid #e5e5e5;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body id="top">
+
+    <!-- 顶部 -->
+    <header class="head">
+        <h1>网页整体布局课后作业</h1>
+        <p>H5 语义布局 + 溢出 / 隐藏过渡动画 · 实践作业答案</p>
+    </header>
+
+    <!-- 锚点导航 -->
+    <nav class="nav">
+        <a href="../index.html">« 返回课堂实践首页</a>
+        <a href="#demo">卡片效果演示</a>
+        <a href="#q1">第一部分 · 找错</a>
+        <a href="#q2">第二部分 · 补全</a>
+        <a href="#q3">第三部分 · 简答</a>
+        <a href="#q4">第四部分 · 回到顶部</a>
+    </nav>
+
+    <main>
+        <!-- 第一部分 -->
+        <section id="q1">
+            <h2>第一部分 · 看代码找错(20分)</h2>
+            <div class="card">
+                <h3>三处 bug 与现象对照</h3>
+                <table class="t">
+                    <tr>
+                        <th>#</th>
+                        <th>错误位置</th>
+                        <th>错误原因</th>
+                        <th>对应现象</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>.box li 缺少 <code>position:relative</code> 和 <code>overflow:hidden</code></td>
+                        <td>图片放大后没有裁切约束,溢出部分直接显示在卡片外</td>
+                        <td>图片放大跑出卡片,盖住旁边卡片</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><code>transition: all .6s</code> 写在了 <code>:hover</code> 里</td>
+                        <td>过渡只存在于悬浮状态,移出后规则失效,样式瞬间跳回</td>
+                        <td>文字展开只有移入有动画,移出无过渡</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>.txt 用了 <code>position:absolute</code>,但父级 li 没有 <code>position:relative</code></td>
+                        <td>"子绝父相"缺了"父相",文字条以更外层元素为定位基准</td>
+                        <td>卡片布局排版错乱</td>
+                    </tr>
+                </table>
+
+                <h3>修改后的完整代码</h3>
+<pre class="code">&lt;style&gt;
+  .box li {
+    width: 300px;
+    position: relative;  <span class="cm">/* 修复bug3:父相,给绝对定位的文字条做参照 */</span>
+    overflow: hidden;    <span class="cm">/* 修复bug1:裁切溢出,图片放大不会跑出卡片 */</span>
+    list-style: none;
+  }
+  .box img {
+    width: 100%;
+    transition: all .6s; <span class="cm">/* 修复bug2:transition移到默认状态,移入移出都有动画 */</span>
+  }
+  .box li:hover img {
+    transform: scale(1.2); <span class="cm">/* hover里只写transform */</span>
+  }
+  .txt {
+    position: absolute;
+    left: 0;             <span class="cm">/* 补充:贴住卡片左侧 */</span>
+    bottom: 0;
+    width: 100%;         <span class="cm">/* 补充:宽度撑满卡片,不然文字条宽度塌陷 */</span>
+    height: 40px;
+    background: rgba(0,0,0,.6);
+    transition: all .6s; <span class="cm">/* 文字条同样在默认状态写transition */</span>
+  }
+  .box li:hover .txt {   <span class="cm">/* 补充:悬浮时文字条展开的触发规则 */</span>
+    height: 110px;
+  }
+  .box { display: flex; }
+&lt;/style&gt;</pre>
+            </div>
+        </section>
+
+        <!-- 第二部分 -->
+        <section id="q2">
+            <h2>第二部分 · 补全代码(40分)</h2>
+            <div class="card">
+                <h3>2.1 语义标签填空</h3>
+                <table class="t">
+                    <tr><th>页面区域</th><th>应填语义标签</th></tr>
+                    <tr><td>页面顶部头部区域</td><td><code>&lt;header&gt;</code></td></tr>
+                    <tr><td>导航条</td><td><code>&lt;nav&gt;</code></td></tr>
+                    <tr><td>页面唯一主要内容区</td><td><code>&lt;main&gt;</code></td></tr>
+                    <tr><td>侧边栏附属内容</td><td><code>&lt;aside&gt;</code></td></tr>
+                    <tr><td>页面底部版权页脚</td><td><code>&lt;footer&gt;</code></td></tr>
+                </table>
+
+                <h3>2.2 卡片动画补全</h3>
+                <table class="t">
+                    <tr><th>需要实现效果 / 问题</th><th>答案</th></tr>
+                    <tr><td>防止放大图片溢出 li 容器</td><td>li 添加属性:<code>overflow: hidden;</code></td></tr>
+                    <tr><td>子绝父相,让文字条定位在卡片底部</td><td>li 添加属性:<code>position: relative;</code>(文字条写 <code>position: absolute</code>)</td></tr>
+                    <tr><td>hover 图片从原始大小放大到 scale(1.2),需要写哪两个选择器</td><td><code>.box img{ transition: all .6s; }</code> 和 <code>.box li:hover img{ transform: scale(1.2); }</code></td></tr>
+                    <tr><td>文字高度平滑展开,移入移出都有动画,transition 写在默认还是 hover?为什么?</td><td>写在默认(普通选择器)上。因为鼠标移出后 :hover 规则马上失效,浏览器按默认状态的 transition 计算回退动画;要是只写在 hover 上,移出瞬间没有过渡定义,元素会直接跳回原样。</td></tr>
+                    <tr><td>奇数卡片悬浮,文字铺满整张卡片,使用什么伪类选择器</td><td><code>:nth-child(odd)</code>(也就是 <code>.box li:nth-child(odd):hover .txt{ height: 100%; }</code>)</td></tr>
+                </table>
+
+                <h3>2.3 flex 两栏布局填空</h3>
+                <p>版心 1200px;主内容 792px,侧边栏 400px;两栏间隔 8px。</p>
+                <ul class="a-list">
+                    <li>父容器开启 flex:<code>display: flex;</code></li>
+                    <li>设置两栏间隙 8px 的属性:<code>gap: 8px;</code>(不让用 margin,gap 不会有多余的边距叠加问题)</li>
+                </ul>
+<pre class="code">.container {
+  max-width: 1200px;  <span class="cm">/* 版心 */</span>
+  margin: 0 auto;     <span class="cm">/* 版心水平居中 */</span>
+  display: flex;      <span class="cm">/* 开启 flex 布局 */</span>
+  gap: 8px;           <span class="cm">/* 两栏间隔 8px */</span>
+}
+.content { width: 792px; } <span class="cm">/* 主内容 792px,792+8+400=1200 */</span></pre>
+            </div>
+        </section>
+
+        <!-- 第三部分 -->
+        <section id="q3">
+            <h2>第三部分 · 手写原理简答(25分)</h2>
+            <div class="card">
+                <h3>1. 画图:父相子绝的盒子位置关系</h3>
+                <div class="draw">
+                    <div class="father">
+                        <span class="fl">父级 li:position: relative(父相)</span>
+                        <div class="son">子级 .txt:position: absolute,贴 left:0 / bottom:0(子绝)</div>
+                        <span class="tip2">文字条以父级卡片为定位基准,<br>锚定在卡片左下角</span>
+                    </div>
+                </div>
+
+                <h3>2. overflow:hidden 本节课两个作用</h3>
+                <ul class="a-list">
+                    <li><strong>作用1:溢出裁切。</strong>把超出容器边界的内容裁掉 —— 图片 scale(1.2) 放大后超出卡片的部分被裁掉,不会盖到旁边的卡片。</li>
+                    <li><strong>作用2:藏起容器内超出的部分,实现"先藏后展"的动画。</strong>文字条默认高度只有 40px,多出来的描述文字被 overflow:hidden 藏住,悬浮时高度变大,文字跟着高度变化慢慢"露出来",形成平滑展开的效果。(补充:它还能触发 BFC,用来清除浮动。)</li>
+                </ul>
+
+                <h3>3. transform:scale(1.2) 会不会把盒子实际占位变大,挤压旁边卡片?</h3>
+                <p><strong>不会。</strong>transform 是视觉层面的变换(类似"photoshop 缩放"),不改变盒子在文档流里的布局:盒子原来占的位置、宽高完全不变,旁边的卡片不会被挤压,页面也不会重排。所以放大的图片会溢出到原来的占位之外,这才需要配合 overflow: hidden 把溢出的部分裁掉。</p>
+
+                <h3>4. transition 写在 hover 上和写在普通选择器上,鼠标移出动画的区别</h3>
+                <table class="t">
+                    <tr><th>写法</th><th>移入时</th><th>移出时</th></tr>
+                    <tr><td>写在 <code>:hover</code> 上</td><td>有过渡动画</td><td>没有动画,瞬间跳回(hover 规则失效,默认状态没有 transition)</td></tr>
+                    <tr><td>写在普通选择器(默认状态)上</td><td>有过渡动画</td><td>也有过渡动画(默认状态一直带着 transition,回退过程同样被过渡)</td></tr>
+                </table>
+                <p><strong>结论:</strong>发生变化的两个状态都要有 transition,所以写在默认(普通)选择器上,移入移出才都有动画。</p>
+
+                <h3>5. bug 记录(现象 → 排查 → 修复)</h3>
+                <ul class="a-list">
+                    <li><strong>现象:</strong>导航栏 a 标签 hover 悬浮不变色,其他 hover 样式正常。</li>
+                    <li><strong>排查:</strong>打开开发者工具,发现别的选择器优先级更高,把 hover 样式覆盖了。</li>
+                    <li><strong>修复:</strong>提高 hover 选择器优先级,删掉冲突的样式之后悬浮变色恢复正常。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 效果演示 -->
+        <section id="demo">
+            <h2>作业效果演示 · 六张图文卡片</h2>
+            <div class="card">
+                <p>下面的六张卡片就是作业 2.2 要实现的效果:上图下文,悬浮时图片放大、文字条平滑展开,奇数卡片文字铺满整张卡片。鼠标放上来试试。</p>
+                <ul class="demo-box" style="margin-top: 14px;">
+                    <li>
+                        <img src="../assets/images/1.jpg" alt="卡片一">
+                        <div class="txt"><strong>卡片一</strong>悬浮时文字条铺满整张卡片,图片同时放大 1.2 倍。</div>
+                    </li>
+                    <li>
+                        <img src="../assets/images/1.jpg" alt="卡片二">
+                        <div class="txt"><strong>卡片二</strong>悬浮时文字条向上展开到 100px。</div>
+                    </li>
+                    <li>
+                        <img src="../assets/images/1.jpg" alt="卡片三">
+                        <div class="txt"><strong>卡片三</strong>nth-child(odd) 选中奇数卡片。</div>
+                    </li>
+                    <li>
+                        <img src="../assets/images/1.jpg" alt="卡片四">
+                        <div class="txt"><strong>卡片四</strong>transition 写在默认状态,移入移出都有动画。</div>
+                    </li>
+                    <li>
+                        <img src="../assets/images/1.jpg" alt="卡片五">
+                        <div class="txt"><strong>卡片五</strong>overflow:hidden 裁掉放大的图片。</div>
+                    </li>
+                    <li>
+                        <img src="../assets/images/1.jpg" alt="卡片六">
+                        <div class="txt"><strong>卡片六</strong>子绝父相:li 相对定位,文字条绝对定位。</div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 第四部分 -->
+        <section id="q4">
+            <h2>第四部分 · 扩展挑战(选做,15分加分)</h2>
+            <div class="card">
+                <p>左下角的圆形按钮就是这个挑战的实现(纯 CSS,没有任何 JS):点击可以回到本页顶部。</p>
+<pre class="code">/* 回到顶部按钮:纯 CSS 实现 */
+.backtop {
+  position: fixed;   <span class="cm">/* 固定定位:相对视口,不跟着页面滚 */</span>
+  left: 18px;        <span class="cm">/* 视口左下角 */</span>
+  bottom: 22px;
+  opacity: .6;       <span class="cm">/* 初始半透明 */</span>
+  transition: all .3s;
+}
+.backtop:hover {
+  opacity: 1;              <span class="cm">/* 悬浮变不透明 */</span>
+  transform: scale(1.1);   <span class="cm">/* 同时稍微放大 */</span>
+}</pre>
+                <p>结构上用锚点 <code style="color:#c0392b">&lt;a href="#top"&gt;</code> 跳回页面顶部(body 上设置了 id="top"),全程不用 JavaScript。</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 回到顶部按钮 -->
+    <a class="backtop" href="#top">顶部</a>
+
+    <footer>
+        <p>学生:汤智科 学号:24001010902</p>
+    </footer>
+
+</body>
+</html>

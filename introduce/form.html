@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言表单 · 汤智科</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 表单页自己的样式,表单元素都在课上讲过 */
+        .form-main {
+            max-width: 600px;
+        }
+
+        .form-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 26px 28px;
+            margin-top: 16px;
+        }
+        .form-desc {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            margin-bottom: 16px;
+        }
+        .form-row > label {
+            display: block;
+            color: #2c3e50;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        /* 输入框样式 */
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px 10px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #333;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4a90d9;
+        }
+        textarea {
+            height: 90px;
+            resize: vertical;
+        }
+
+        /* 单选框和复选框 */
+        .radio-group, .check-group {
+            display: flex;
+            gap: 20px;
+        }
+        .radio-group label, .check-group label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* 按钮组 */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+        }
+        .btn-group input {
+            flex: 1;
+            padding: 9px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn-group input[type="submit"] {
+            background: #4a90d9;
+            border-color: #4a90d9;
+            color: #fff;
+        }
+        .btn-group input[type="submit"]:hover {
+            background: #2a6db5;
+        }
+        .btn-group input[type="reset"],
+        .btn-group input[type="button"] {
+            background: #fff;
+            color: #666;
+        }
+        .btn-group input[type="reset"]:hover,
+        .btn-group input[type="button"]:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <a href="index.html">← 返回自我介绍主页</a>
+        <a href="../index.html">课程目录</a>
+    </nav>
+
+    <main class="form-main">
+        <h1>欢迎给我留言</h1>
+        <p class="page-sub">—— 基础表单元素演示 · 汤智科</p>
+
+        <div class="form-card">
+            <p class="form-desc">这是本作品的表单子页面,使用了课上讲过的基础表单元素:文本框、密码框、邮箱框、文件上传、单选框、复选框、多行文本域、下拉列表以及提交 / 重置 / 普通按钮。</p>
+
+            <form action="#" method="post">
+                <!-- 文本框 -->
+                <div class="form-row">
+                    <label for="username">用户名:</label>
+                    <input type="text" id="username" name="username" placeholder="请输入用户名">
+                </div>
+
+                <!-- 密码框 -->
+                <div class="form-row">
+                    <label for="password">密码:</label>
+                    <input type="password" id="password" name="password" placeholder="请输入密码">
+                </div>
+
+                <!-- 邮箱框 -->
+                <div class="form-row">
+                    <label for="email">邮箱:</label>
+                    <input type="email" id="email" name="email" placeholder="请输入邮箱">
+                </div>
+
+                <!-- 文件上传 -->
+                <div class="form-row">
+                    <label for="file">请上传文件:</label>
+                    <input type="file" id="file" name="file">
+                </div>
+
+                <!-- 单选框 -->
+                <div class="form-row">
+                    <label>性别:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="女">女</label>
+                        <label><input type="radio" name="gender" value="男" checked>男</label>
+                    </div>
+                </div>
+
+                <!-- 复选框 -->
+                <div class="form-row">
+                    <label>爱好:</label>
+                    <div class="check-group">
+                        <label><input type="checkbox" name="hobby" value="coding">coding</label>
+                        <label><input type="checkbox" name="hobby" value="playing">playing</label>
+                        <label><input type="checkbox" name="hobby" value="reading">reading</label>
+                    </div>
+                </div>
+
+                <!-- 多行文本域 -->
+                <div class="form-row">
+                    <label for="intro">自我介绍:</label>
+                    <textarea id="intro" name="intro" placeholder="写点什么介绍自己吧……"></textarea>
+                </div>
+
+                <!-- 下拉列表 -->
+                <div class="form-row">
+                    <label for="hometown">籍贯:</label>
+                    <select id="hometown" name="hometown">
+                        <option value="">-- 请选择籍贯 --</option>
+                        <option value="北京">北京</option>
+                        <option value="上海">上海</option>
+                        <option value="广州">广州</option>
+                    </select>
+                </div>
+
+                <!-- 提交/重置/普通按钮 -->
+                <div class="btn-group">
+                    <input type="submit" value="提交">
+                    <input type="reset" value="重置">
+                    <input type="button" value="普通按钮" onclick="alert('这是一个普通按钮')">
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>学生:汤智科 学号:24001010902</p>
+    </footer>
+
+</body>
+</html>

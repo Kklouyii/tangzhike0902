@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>盒模型、层叠与继承 / CSS选择器优先级 · 汤智科</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f4f6fb;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .nav {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+            padding: 12px 20px;
+        }
+        .nav a {
+            color: #4a90d9;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 15px;
+        }
+        .nav a:hover { text-decoration: underline; }
+
+        main {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 30px 20px 50px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+        .page-sub {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .box {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px 24px;
+            margin-bottom: 22px;
+        }
+        .box > h2 {
+            font-size: 18px;
+            color: #4a90d9;
+            border-left: 4px solid #4a90d9;
+            padding-left: 10px;
+            margin-bottom: 12px;
+        }
+        .box p { font-size: 15px; margin: 6px 0; }
+
+        /* 盒模型演示,一层套一层 */
+        .bm-wrap { text-align: center; margin: 16px 0; }
+        .bm-margin {
+            display: inline-block;
+            background: #f0f0f0;
+            border: 1px dashed #aaa;
+            padding: 20px;
+            text-align: left;
+        }
+        .bm-margin::before { content: "margin(外边距)"; font-size: 12px; color: #888; }
+        .bm-border {
+            background: #fff;
+            border: 3px solid #4a90d9;
+            padding: 18px;
+        }
+        .bm-border::before { content: "border(边框)"; font-size: 12px; color: #4a90d9; }
+        .bm-padding {
+            background: #fdf6ec;
+            border: 1px dashed #e0c184;
+            padding: 18px;
+        }
+        .bm-padding::before { content: "padding(内边距)"; font-size: 12px; color: #b8860b; }
+        .bm-content {
+            background: #eef4fb;
+            border: 1px solid #c9def2;
+            padding: 14px 40px;
+            text-align: center;
+        }
+        .bm-content::before { content: "content(内容)"; font-size: 12px; color: #4a90d9; display: block; }
+
+        /* 代码展示 */
+        pre.code {
+            background: #f7f9fb;
+            border: 1px solid #e0e6ec;
+            border-radius: 4px;
+            padding: 12px 16px;
+            font-family: Consolas, monospace;
+            font-size: 13px;
+            color: #444;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        /* 选择器优先级演示 */
+        /* 优先级:标签 < 类 < id < !important */
+        .pri-demo p.tag { color: #4a90d9; }              /* 标签选择器 */
+        .pri-demo p.tag.cls { color: #27ae60; }           /* 加了类选择器 */
+        .pri-demo p.tag.cls#idname { color: #e67e22; }    /* 加了id选择器 */
+        .pri-demo p.imp { color: #e74c3c !important; }    /* !important最高 */
+
+        .pri-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .pri-table th, .pri-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .pri-table th { background: #eef4fb; }
+        .pri-table code { font-family: Consolas, monospace; color: #c0392b; }
+
+        /* CSS Diner答案 */
+        .diner-list {
+            margin-left: 28px;
+        }
+        .diner-list li {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+        .diner-list code {
+            background: #f7f9fb;
+            border: 1px solid #e0e6ec;
+            border-radius: 3px;
+            padding: 1px 6px;
+            font-family: Consolas, monospace;
+            color: #c0392b;
+            margin-right: 4px;
+        }
+        .diner-list em { color: #999; font-style: normal; font-size: 13px; }
+
+        footer {
+            text-align: center;
+            padding: 22px 20px;
+            border-top: 1px solid #e5e5e5;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <a href="index.html">← 返回课程目录</a>
+        <a href="class.html">HTML 基础</a>
+        <a href="layout-homework/index.html">布局作业</a>
+    </nav>
+
+    <main>
+        <h1>层叠与继承 + 盒模型</h1>
+        <p class="page-sub">—— CSS 选择器优先级 · 盒模型 · CSS Diner 通关答案 · 汤智科</p>
+
+        <!-- 盒模型 -->
+        <section class="box">
+            <h2>盒模型</h2>
+            <p>盒模型:<strong>content(内容) → padding(内边距) → border(边框) → margin(外边距)</strong>,从内到外依次包裹。</p>
+
+            <div class="bm-wrap">
+                <div class="bm-margin">
+                    <div class="bm-border">
+                        <div class="bm-padding">
+                            <div class="bm-content">Hello Box</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<pre class="code">.box {
+    width: 200px;
+    padding: 20px;              /* 内边距:内容和边框之间的距离 */
+    border: 3px solid #4a90d9;  /* 边框:盒子的轮廓 */
+    margin: 20px;               /* 外边距:盒子和盒子之间的距离 */
+}</pre>
+
+            <p><strong>补充:</strong>设置 <code style="color:#c0392b">box-sizing: border-box</code> 之后,width 就包含 padding 和 border 了,盒子不会被撑大。</p>
+        </section>
+
+        <!-- 选择器优先级 -->
+        <section class="box pri-demo">
+            <h2>CSS 选择器优先级</h2>
+            <p>多个选择器同时选中一个元素时,优先级从低到高:<strong>标签选择器 &lt; 类选择器 &lt; ID 选择器 &lt; 行内样式 &lt; !important</strong>。权重可以记成四位数:行内 1000、ID 100、类 10、标签 1。</p>
+
+            <p class="tag">我被标签选择器选中(0,0,0,1) → 蓝色</p>
+            <p class="tag cls">我被标签+类选中(0,0,1,1) → 绿色</p>
+            <p class="tag cls" id="idname">我被标签+类+ID选中(0,1,1,1) → 橙色</p>
+            <p class="imp" style="color: #999;">行内样式写的灰色,但是 !important 更大,强制变红</p>
+
+            <table class="pri-table">
+                <tr>
+                    <th>选择器</th>
+                    <th>权重</th>
+                    <th>说明</th>
+                </tr>
+                <tr><td><code>!important</code></td><td>最高</td><td>强制生效,尽量少用</td></tr>
+                <tr><td><code>style=""</code></td><td>1000</td><td>行内样式</td></tr>
+                <tr><td><code>#id</code></td><td>100</td><td>ID 选择器</td></tr>
+                <tr><td><code>.class</code></td><td>10</td><td>类选择器</td></tr>
+                <tr><td><code>tag</code></td><td>1</td><td>标签选择器</td></tr>
+                <tr><td><code>*</code> / 继承</td><td>0</td><td>通配符和继承的样式最低</td></tr>
+            </table>
+        </section>
+
+        <!-- CSS Diner答案 -->
+        <section class="box">
+            <h2>CSS Diner 通关游戏答案</h2>
+            <ol class="diner-list">
+                <li><code>plate</code>类型选择器:选中所有 plate 标签</li>
+                <li><code>bento</code>类型选择器:选中所有 bento 标签</li>
+                <li><code>#fancy</code>ID 选择器:选中 id="fancy" 的唯一元素</li>
+                <li><code>plate apple</code>后代选择器:选中盘子里的苹果</li>
+                <li><code>#fancy pickle</code>ID + 后代:fancy 盘子里的黄瓜</li>
+                <li><code>.small</code>类选择器:选中所有 class="small" 的元素</li>
+                <li><code>orange.small</code>标签 + 类(连写):既是 orange 又带 small 类</li>
+                <li><code>bento orange.small</code>组合:便当盒里的小橙子</li>
+                <li><code>plate, bento</code>逗号并列:选中所有 plate 或 bento</li>
+                <li><code>*</code>通配选择器:选中页面上所有元素</li>
+            </ol>
+        </section>
+    </main>
+
+    <footer>
+        <p>学生:汤智科 学号:24001010902</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自我介绍 · 汤智科</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <a href="../index.html">← 返回课程目录</a>
+        <a href="#about">关于我</a>
+        <a href="#hobby">兴趣爱好</a>
+        <a href="#plan">学习计划</a>
+        <a href="#course">课程种类</a>
+        <a href="form.html">留言表单 →</a>
+    </nav>
+
+    <main>
+        <h1>自我介绍</h1>
+        <p class="page-sub">—— 高级网页设计课程作业 · 汤智科</p>
+
+        <!-- 关于我 -->
+        <section id="about">
+            <h2>关于我</h2>
+            <p>大家好,我是 <strong>汤智科</strong>,学号 <em>24001010902</em>,目前正在学习<i>高级网页设计</i>课程。这个页面综合使用了课上讲过的全部 HTML 标签:标题、段落、超链接、图片、列表、表格、div 以及 H5 语义标签。</p>
+           
+
+            <!-- 图片用figure标签包起来 -->
+            <div class="photo-box">
+                <figure>
+                    <img src="../assets/images/1.jpg" alt="个人照片">
+                    <figcaption>个人照片展示(H5 figure 语义标签)</figcaption>
+                </figure>
+            </div>
+
+            <p>平时我喜欢通过 <a href="https://www.w3school.com.cn/" target="_blank">W3school</a> 和 <a href="https://developer.mozilla.org/zh-CN/" target="_blank">MDN 文档</a>学习计算机相关知识。</p>
+        </section>
+
+        <!-- 兴趣爱好 -->
+        <section id="hobby">
+            <h2>兴趣爱好</h2>
+            <ul class="hobby-list">
+                <li>编程开发</li>
+                <li>看电影</li>
+                <li>打篮球</li>
+                <li>读书</li>
+            </ul>
+        </section>
+
+        <!-- 学习计划 -->
+        <section id="plan">
+            <h2>学习计划</h2>
+            <ol class="plan-list">
+                <li>掌握 HTML5 语义化标签</li>
+                <li>熟练使用 CSS3 布局</li>
+                <li>学习 JavaScript 基础</li>
+                <li>完成个人网站作品</li>
+            </ol>
+        </section>
+
+        <!-- 课程种类 -->
+        <section id="course">
+            <h2>课程种类</h2>
+            <p>本学期课程表</p>
+            <table class="course-table">
+                <tr>
+                    <th>课程名称</th>
+                    <th>类型</th>
+                    <th>备注</th>
+                </tr>
+                <tr>
+                    <td>高级网页设计</td>
+                    <td>专业课</td>
+                    <td>本页面所属课程</td>
+                </tr>
+                <tr>
+                    <td>程序设计基础</td>
+                    <td>基础课</td>
+                    <td>学习 Java 入门</td>
+                </tr>
+                <tr>
+                    <td>数据库原理</td>
+                    <td>必修课</td>
+                    <td>期末闭卷考试</td>
+                </tr>
+            </table>
+
+            <div class="tip-box">
+                <strong>小贴士:</strong>表单部分在<a href="form.html">留言表单</a>子页面中,点导航即可跳转;课程全部作品见<a href="../index.html">课程目录页</a>。
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>学生:汤智科 学号:24001010902</p>
+    </footer>
+
+</body>
+</html>

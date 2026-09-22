@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上图下文与图上文字 · 汤智科</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f4f6fb;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .nav {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+            padding: 12px 20px;
+        }
+        .nav a {
+            color: #4a90d9;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 15px;
+        }
+        .nav a:hover { text-decoration: underline; }
+
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 30px 20px 50px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+        .page-sub {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .box {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px 24px;
+            margin-bottom: 26px;
+        }
+        .box > h2 {
+            font-size: 18px;
+            color: #4a90d9;
+            border-left: 4px solid #4a90d9;
+            padding-left: 10px;
+            margin-bottom: 6px;
+        }
+        .box > .desc {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        /* ============================
+           上图下文:父元素用flex布局
+           ============================ */
+        .pic-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        /* 并集选择器,图片和文字宽度都设成100% */
+        .pic-list img, .pic-list .caption {
+            width: 100%;
+        }
+        .pic-list a {
+            width: calc(33.333% - 10px);
+            text-decoration: none;
+            color: #666;
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .pic-list a:hover {
+            border-color: #4a90d9;
+        }
+        .pic-list img {
+            height: 130px;
+            object-fit: cover;
+            display: block;
+        }
+        .pic-list .caption {
+            padding: 8px 12px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        /* ============================
+           图上文字:子绝父相 + 半透明遮罩
+           ============================ */
+        .pic-cover {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        .pic-cover .item {
+            position: relative;   /* 父相 */
+            width: calc(33.333% - 10px);
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            overflow: hidden;
+            display: block;
+            text-decoration: none;
+        }
+        .pic-cover .item:hover { border-color: #4a90d9; }
+        .pic-cover img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            display: block;
+        }
+        /* 遮罩:绝对定位压在图片下面 */
+        .pic-cover .txt {
+            position: absolute;   /* 子绝 */
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, .5);   /* 半透明黑色遮罩 */
+            color: #fff;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px 20px;
+            border-top: 1px solid #e5e5e5;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <a href="../index.html">← 返回课程目录</a>
+        <a href="../class.html">HTML 基础</a>
+        <a href="../introduce/index.html">自我介绍</a>
+    </nav>
+
+    <main>
+        <h1>上图下文与图上文字</h1>
+        <p class="page-sub">—— 图片文字两种排版 · 汤智科</p>
+
+        <!-- 上图下文 -->
+        <section class="box">
+            <h2>上图下文</h2>
+            <p class="desc">技术要点:父容器开启 <strong>flex 弹性布局</strong>,图片在上、文字说明在下,用<strong>并集选择器</strong>统一宽度。</p>
+            <div class="pic-list">
+                <a href="../assets/images/1.jpg" target="_blank"><img src="../assets/images/1.jpg" alt="图片1"><div class="caption">图片1文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank"><img src="../assets/images/1.jpg" alt="图片2"><div class="caption">图片2文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank"><img src="../assets/images/1.jpg" alt="图片3"><div class="caption">图片3文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank"><img src="../assets/images/1.jpg" alt="图片4"><div class="caption">图片4文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank"><img src="../assets/images/1.jpg" alt="图片5"><div class="caption">图片5文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank"><img src="../assets/images/1.jpg" alt="图片6"><div class="caption">图片6文字描述</div></a>
+            </div>
+        </section>
+
+        <!-- 图上文字 -->
+        <section class="box">
+            <h2>图上文字</h2>
+            <p class="desc">技术要点:<strong>子绝父相</strong> —— 卡片写相对定位,文字条写绝对定位贴在图片底部,再配一层<strong>半透明遮罩</strong>让文字看得清。</p>
+            <div class="pic-cover">
+                <a href="../assets/images/1.jpg" target="_blank" class="item"><img src="../assets/images/1.jpg" alt="图片1"><div class="txt">图片1文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank" class="item"><img src="../assets/images/1.jpg" alt="图片2"><div class="txt">图片2文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank" class="item"><img src="../assets/images/1.jpg" alt="图片3"><div class="txt">图片3文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank" class="item"><img src="../assets/images/1.jpg" alt="图片4"><div class="txt">图片4文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank" class="item"><img src="../assets/images/1.jpg" alt="图片5"><div class="txt">图片5文字描述</div></a>
+                <a href="../assets/images/1.jpg" target="_blank" class="item"><img src="../assets/images/1.jpg" alt="图片6"><div class="txt">图片6文字描述</div></a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>学生:汤智科 学号:24001010902</p>
+    </footer>
+
+</body>
+</html>
