@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f2f3ef">
+    <title>底部导航 · SVG 图标 | 高级网页设计</title>
+    <!-- 本地 iconfont symbol 雪碧图 -->
+    <script src="font/iconfont.js"></script>
+    <style>
+        :root {
+            --iconfont-4-paper: #f2f3ef;
+            --iconfont-4-ink: #15171c;
+            --iconfont-4-soft: #5f636b;
+            --iconfont-4-muted: #666a73;
+            --iconfont-4-rule: #d5d7d0;
+            --iconfont-4-wash: #e9ebe4;
+            --iconfont-4-accent: #2743d6;
+            --iconfont-4-alert: #b5302a;
+            --iconfont-4-display: "Songti SC", "SimSun", "Noto Serif CJK SC", Georgia, serif;
+            --iconfont-4-body: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+            --iconfont-4-mono: "Cascadia Mono", Consolas, "SFMono-Regular", monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: var(--iconfont-4-body);
+            font-size: 14px;
+            line-height: 1.75;
+            background: var(--iconfont-4-paper);
+            color: var(--iconfont-4-ink);
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: calc(96px + env(safe-area-inset-bottom));
+        }
+
+        ::selection {
+            background: var(--iconfont-4-accent);
+            color: #fff;
+        }
+
+        .iconfont-4-app {
+            max-width: 640px;
+            margin: 0 auto;
+            min-height: 100vh;
+            border-left: 1px solid transparent;
+            border-right: 1px solid transparent;
+        }
+
+        .iconfont-4-header {
+            padding: 42px 28px 26px;
+            border-bottom: 1px solid var(--iconfont-4-ink);
+        }
+
+        .iconfont-4-kicker {
+            font-family: var(--iconfont-4-mono);
+            font-size: 10.5px;
+            letter-spacing: .08em;
+            color: var(--iconfont-4-muted);
+        }
+
+        .iconfont-4-title-row {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .iconfont-4-title {
+            font-family: var(--iconfont-4-display);
+            font-size: 40px;
+            font-weight: 400;
+            line-height: 1.15;
+            letter-spacing: .02em;
+        }
+
+        .iconfont-4-title-note {
+            margin-left: auto;
+            font-family: var(--iconfont-4-mono);
+            font-size: 11px;
+            color: var(--iconfont-4-muted);
+            white-space: nowrap;
+        }
+
+        .iconfont-4-lede {
+            max-width: 32em;
+            margin-top: 10px;
+            font-size: 13.5px;
+            color: var(--iconfont-4-soft);
+        }
+
+        .iconfont-4-main {
+            padding: 0 28px;
+        }
+
+        .iconfont-4-list {
+            list-style: none;
+        }
+
+        .iconfont-4-item {
+            display: grid;
+            grid-template-columns: 36px 1fr;
+            gap: 16px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--iconfont-4-rule);
+        }
+
+        .iconfont-4-item__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--iconfont-4-rule);
+            color: var(--iconfont-4-muted);
+            transition: color .18s ease, border-color .18s ease;
+        }
+
+        .iconfont-4-item.is-unread .iconfont-4-item__icon {
+            color: var(--iconfont-4-accent);
+            border-color: rgba(39, 67, 214, .35);
+        }
+
+        /* SVG symbol 图标：fill 跟随文字颜色 */
+        .iconfont-4-icon {
+            display: block;
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        .iconfont-4-icon--sm {
+            width: 16px;
+            height: 16px;
+        }
+
+        .iconfont-4-item__head {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .iconfont-4-item__title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--iconfont-4-ink);
+        }
+
+        .iconfont-4-item__meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-left: auto;
+            font-family: var(--iconfont-4-mono);
+            font-size: 10.5px;
+            color: var(--iconfont-4-muted);
+            white-space: nowrap;
+        }
+
+        .iconfont-4-item.is-unread .iconfont-4-item__meta::before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--iconfont-4-accent);
+        }
+
+        .iconfont-4-item__text {
+            margin-top: 4px;
+            font-size: 12.5px;
+            color: var(--iconfont-4-soft);
+        }
+
+        .iconfont-4-note {
+            margin-top: 40px;
+            padding: 24px 0 8px;
+            border-top: 1px solid var(--iconfont-4-ink);
+        }
+
+        .iconfont-4-note__title {
+            font-family: var(--iconfont-4-display);
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .iconfont-4-note p {
+            max-width: 40em;
+            margin-top: 8px;
+            font-size: 12.5px;
+            color: var(--iconfont-4-soft);
+        }
+
+        .iconfont-4-note code {
+            padding: 1px 5px;
+            font-family: var(--iconfont-4-mono);
+            font-size: 11.5px;
+            color: var(--iconfont-4-ink);
+            background: var(--iconfont-4-wash);
+            border-radius: 2px;
+        }
+
+        .iconfont-4-back {
+            display: inline-block;
+            margin-top: 22px;
+            padding-bottom: 2px;
+            font-size: 12.5px;
+            color: var(--iconfont-4-ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--iconfont-4-accent);
+            transition: color .18s ease;
+        }
+        .iconfont-4-back:hover { color: var(--iconfont-4-accent); }
+
+        .iconfont-4-back:focus-visible,
+        .iconfont-4-back:focus,
+        .iconfont-4-tab:focus-visible {
+            outline: 2px solid var(--iconfont-4-accent);
+            outline-offset: 3px;
+        }
+
+        /* ——— 固定底部导航 ——— */
+        .iconfont-4-tabbar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 20;
+            background: rgba(242, 243, 239, .94);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+            border-top: 1px solid rgba(21, 23, 28, .12);
+        }
+
+        .iconfont-4-tabbar__inner {
+            display: flex;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+        }
+
+        .iconfont-4-tab {
+            position: relative;
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 0 6px;
+            font-size: 11px;
+            letter-spacing: .03em;
+            color: var(--iconfont-4-muted);
+            text-decoration: none;
+            transition: color .18s ease;
+        }
+
+        .iconfont-4-tab:hover {
+            color: var(--iconfont-4-ink);
+        }
+
+        .iconfont-4-tab.is-active {
+            color: var(--iconfont-4-accent);
+        }
+
+        .iconfont-4-tab.is-active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 20px;
+            height: 2px;
+            background: var(--iconfont-4-accent);
+            transform: translateX(-50%);
+        }
+
+        .iconfont-4-tab__icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            line-height: 1;
+            transition: transform .16s ease;
+        }
+
+        .iconfont-4-tab:active .iconfont-4-tab__icon {
+            transform: scale(.9);
+        }
+
+        /* 数字徽章 */
+        .iconfont-4-badge {
+            position: absolute;
+            top: -7px;
+            right: -13px;
+            min-width: 17px;
+            height: 17px;
+            padding: 0 4px;
+            font-family: var(--iconfont-4-body);
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 17px;
+            text-align: center;
+            color: #fff;
+            background: var(--iconfont-4-alert);
+            border-radius: 9px;
+            box-shadow: 0 0 0 2px rgba(242, 243, 239, .95);
+        }
+
+        /* 红点 */
+        .iconfont-4-dot {
+            position: absolute;
+            top: 1px;
+            right: -3px;
+            width: 7px;
+            height: 7px;
+            background: var(--iconfont-4-alert);
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(242, 243, 239, .95);
+        }
+
+        @media (min-width: 680px) {
+            .iconfont-4-app {
+                border-left-color: var(--iconfont-4-rule);
+                border-right-color: var(--iconfont-4-rule);
+            }
+        }
+
+        @media (max-width: 420px) {
+            .iconfont-4-header { padding: 34px 20px 22px; }
+            .iconfont-4-main { padding: 0 20px; }
+            .iconfont-4-title { font-size: 34px; }
+            .iconfont-4-item { grid-template-columns: 32px 1fr; gap: 12px; }
+            .iconfont-4-item__icon { width: 32px; height: 32px; }
+            .iconfont-4-icon--sm { width: 15px; height: 15px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="iconfont-4-app">
+
+        <header class="iconfont-4-header">
+            <div class="iconfont-4-kicker">高级网页设计 / 移动端组件</div>
+            <div class="iconfont-4-title-row">
+                <h1 class="iconfont-4-title">消息</h1>
+                <span class="iconfont-4-title-note">3 条未读</span>
+            </div>
+            <p class="iconfont-4-lede">
+                同一套底部导航，改用 SVG symbol 渲染；图标以
+                <code>&lt;use&gt;</code> 引用，颜色与尺寸都由 CSS 控制。
+            </p>
+        </header>
+
+        <main class="iconfont-4-main">
+            <ul class="iconfont-4-list">
+                <li class="iconfont-4-item is-unread">
+                    <span class="iconfont-4-item__icon" aria-hidden="true">
+                        <svg class="iconfont-4-icon iconfont-4-icon--sm"><use xlink:href="#icon-prompt"></use></svg>
+                    </span>
+                    <div>
+                        <div class="iconfont-4-item__head">
+                            <h2 class="iconfont-4-item__title">作业提交提醒</h2>
+                            <span class="iconfont-4-item__meta"><time datetime="2026-10-22T09:24">09:24</time></span>
+                        </div>
+                        <p class="iconfont-4-item__text">网页整体布局作业将于本周五 23:59 截止。</p>
+                    </div>
+                </li>
+
+                <li class="iconfont-4-item is-unread">
+                    <span class="iconfont-4-item__icon" aria-hidden="true">
+                        <svg class="iconfont-4-icon iconfont-4-icon--sm"><use xlink:href="#icon-message"></use></svg>
+                    </span>
+                    <div>
+                        <div class="iconfont-4-item__head">
+                            <h2 class="iconfont-4-item__title">课堂资料更新</h2>
+                            <span class="iconfont-4-item__meta"><time datetime="2026-10-21">昨天</time></span>
+                        </div>
+                        <p class="iconfont-4-item__text">第 6 周课件与示例代码已上传，可在资料区下载。</p>
+                    </div>
+                </li>
+
+                <li class="iconfont-4-item is-unread">
+                    <span class="iconfont-4-item__icon" aria-hidden="true">
+                        <svg class="iconfont-4-icon iconfont-4-icon--sm"><use xlink:href="#icon-user"></use></svg>
+                    </span>
+                    <div>
+                        <div class="iconfont-4-item__head">
+                            <h2 class="iconfont-4-item__title">小组互评开始</h2>
+                            <span class="iconfont-4-item__meta"><time datetime="2026-10-20">周一</time></span>
+                        </div>
+                        <p class="iconfont-4-item__text">请在本周内完成两位同学作品的互评。</p>
+                    </div>
+                </li>
+
+                <li class="iconfont-4-item">
+                    <span class="iconfont-4-item__icon" aria-hidden="true">
+                        <svg class="iconfont-4-icon iconfont-4-icon--sm"><use xlink:href="#icon-prompt"></use></svg>
+                    </span>
+                    <div>
+                        <div class="iconfont-4-item__head">
+                            <h2 class="iconfont-4-item__title">关于图标作业的说明</h2>
+                            <span class="iconfont-4-item__meta"><time datetime="2026-10-18">10-18</time></span>
+                        </div>
+                        <p class="iconfont-4-item__text">图标页面需同时保留字体与 SVG 两种实现方式。</p>
+                    </div>
+                </li>
+
+                <li class="iconfont-4-item">
+                    <span class="iconfont-4-item__icon" aria-hidden="true">
+                        <svg class="iconfont-4-icon iconfont-4-icon--sm"><use xlink:href="#icon-settings"></use></svg>
+                    </span>
+                    <div>
+                        <div class="iconfont-4-item__head">
+                            <h2 class="iconfont-4-item__title">系统通知</h2>
+                            <span class="iconfont-4-item__meta"><time datetime="2026-10-16">10-16</time></span>
+                        </div>
+                        <p class="iconfont-4-item__text">你的账号已完成课程空间绑定。</p>
+                    </div>
+                </li>
+            </ul>
+
+            <section class="iconfont-4-note">
+                <h2 class="iconfont-4-note__title">关于这个导航</h2>
+                <p>
+                    导航仍是 <code>position: fixed</code> 贴住视口底部，四项用
+                    <code>flex: 1</code> 等分；宽度随屏幕自适应，桌面上收在 640px 的栏内。
+                </p>
+                <p>
+                    图标来自 <code>font/iconfont.js</code> 注入的 symbol 雪碧图，
+                    用 <code>&lt;use xlink:href="#icon-message"&gt;</code> 引用。
+                    因为它是 SVG，<code>fill: currentColor</code> 就能让图标跟随文字颜色。
+                </p>
+                <p>
+                    相比字体图标，SVG 不受字体加载失败影响，也能单独调整每一个图标的路径与描边。
+                </p>
+                <a href="index.html" class="iconfont-4-back">← 返回课堂目录</a>
+            </section>
+        </main>
+    </div>
+
+    <nav class="iconfont-4-tabbar" aria-label="主导航">
+        <div class="iconfont-4-tabbar__inner">
+            <a href="#messages" class="iconfont-4-tab is-active" aria-current="page" aria-label="消息，3 条未读">
+                <span class="iconfont-4-tab__icon">
+                    <svg class="iconfont-4-icon" aria-hidden="true"><use xlink:href="#icon-message"></use></svg>
+                    <span class="iconfont-4-badge" aria-hidden="true">3</span>
+                </span>
+                <span class="iconfont-4-tab__label">消息</span>
+            </a>
+
+            <a href="#notice" class="iconfont-4-tab" aria-label="通知，12 条未读">
+                <span class="iconfont-4-tab__icon">
+                    <svg class="iconfont-4-icon" aria-hidden="true"><use xlink:href="#icon-prompt"></use></svg>
+                    <span class="iconfont-4-badge" aria-hidden="true">12</span>
+                </span>
+                <span class="iconfont-4-tab__label">通知</span>
+            </a>
+
+            <a href="#user" class="iconfont-4-tab" aria-label="用户，有新内容">
+                <span class="iconfont-4-tab__icon">
+                    <svg class="iconfont-4-icon" aria-hidden="true"><use xlink:href="#icon-user"></use></svg>
+                    <span class="iconfont-4-dot" aria-hidden="true"></span>
+                </span>
+                <span class="iconfont-4-tab__label">用户</span>
+            </a>
+
+            <a href="#settings" class="iconfont-4-tab">
+                <span class="iconfont-4-tab__icon">
+                    <svg class="iconfont-4-icon" aria-hidden="true"><use xlink:href="#icon-settings"></use></svg>
+                </span>
+                <span class="iconfont-4-tab__label">设置</span>
+            </a>
+        </div>
+    </nav>
+
+</body>
+</html>

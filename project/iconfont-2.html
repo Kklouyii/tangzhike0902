@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucide SVG 图标 | 高级网页设计</title>
+    <!-- 本地 CDN 文件，断网也能正常显示 -->
+    <script src="cdn/lucide/lucide.min.js"></script>
+    <style>
+        :root {
+            --iconfont-2-paper: #f2f3ef;
+            --iconfont-2-ink: #15171c;
+            --iconfont-2-soft: #5f636b;
+            --iconfont-2-muted: #666a73;
+            --iconfont-2-rule: #d5d7d0;
+            --iconfont-2-wash: #e9ebe4;
+            --iconfont-2-accent: #2743d6;
+            --iconfont-2-display: "Songti SC", "SimSun", "Noto Serif CJK SC", Georgia, serif;
+            --iconfont-2-body: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+            --iconfont-2-mono: "Cascadia Mono", Consolas, "SFMono-Regular", monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: var(--iconfont-2-body);
+            font-size: 14px;
+            line-height: 1.75;
+            background: var(--iconfont-2-paper);
+            color: var(--iconfont-2-ink);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--iconfont-2-accent);
+            color: #fff;
+        }
+
+        .iconfont-2-wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* ——— 刊头 ——— */
+        .iconfont-2-masthead {
+            border-bottom: 1px solid var(--iconfont-2-rule);
+        }
+
+        .iconfont-2-masthead__bar {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 22px 0 14px;
+            border-bottom: 1px solid var(--iconfont-2-rule);
+            font-family: var(--iconfont-2-mono);
+            font-size: 11px;
+            letter-spacing: .06em;
+            color: var(--iconfont-2-muted);
+        }
+        .iconfont-2-masthead__bar span {
+            padding: 0 18px;
+            border-left: 1px solid var(--iconfont-2-rule);
+        }
+        .iconfont-2-masthead__bar span:first-child {
+            padding-left: 0;
+            border-left: 0;
+        }
+        .iconfont-2-masthead__bar b {
+            font-weight: 400;
+            color: var(--iconfont-2-ink);
+        }
+
+        .iconfont-2-masthead__title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px 28px;
+            margin: 38px 0 22px;
+        }
+
+        .iconfont-2-masthead__en {
+            font-family: var(--iconfont-2-display);
+            font-size: clamp(46px, 8vw, 92px);
+            font-weight: 400;
+            line-height: .92;
+            letter-spacing: -.015em;
+        }
+
+        .iconfont-2-masthead__zh {
+            font-family: var(--iconfont-2-display);
+            font-size: clamp(17px, 2.2vw, 23px);
+            letter-spacing: .18em;
+            color: var(--iconfont-2-soft);
+        }
+
+        .iconfont-2-masthead__lede {
+            max-width: 34em;
+            padding-bottom: 40px;
+            font-size: 14px;
+            color: var(--iconfont-2-soft);
+        }
+
+        /* 唯一一处入场动效 */
+        @keyframes iconfont-2-enter {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: none; }
+        }
+        .iconfont-2-masthead__en,
+        .iconfont-2-masthead__zh {
+            animation: iconfont-2-enter .7s cubic-bezier(.2, .7, .2, 1) both;
+        }
+        .iconfont-2-masthead__zh { animation-delay: .08s; }
+
+        /* ——— 制图台 ——— */
+        .iconfont-2-plate {
+            display: grid;
+            grid-template-columns: minmax(280px, 1.05fr) 1fr;
+            border-bottom: 1px solid var(--iconfont-2-rule);
+        }
+
+        .iconfont-2-plate__figure {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 22px;
+            padding: 60px 40px 48px 0;
+            border-right: 1px solid var(--iconfont-2-rule);
+            background-image:
+                linear-gradient(to right, rgba(21, 23, 28, .055) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(21, 23, 28, .055) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* 图纸角标 */
+        .iconfont-2-plate__figure::before,
+        .iconfont-2-plate__figure::after {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border: 1px solid var(--iconfont-2-rule);
+        }
+        .iconfont-2-plate__figure::before {
+            top: 14px;
+            left: 0;
+            border-right: 0;
+            border-bottom: 0;
+        }
+        .iconfont-2-plate__figure::after {
+            right: 14px;
+            bottom: 14px;
+            border-left: 0;
+            border-top: 0;
+        }
+
+        .iconfont-2-plate__figure svg {
+            width: clamp(110px, 16vw, 196px);
+            height: auto;
+            color: var(--iconfont-2-ink);
+            stroke-width: .9;
+        }
+
+        .iconfont-2-plate__caption {
+            position: relative;
+            padding: 4px 8px;
+            font-family: var(--iconfont-2-mono);
+            font-size: 11px;
+            letter-spacing: .04em;
+            color: var(--iconfont-2-muted);
+            background: var(--iconfont-2-paper);
+        }
+
+        .iconfont-2-plate__notes {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px 0 48px 44px;
+        }
+
+        .iconfont-2-plate__lead {
+            max-width: 30em;
+            font-family: var(--iconfont-2-display);
+            font-size: 19px;
+            line-height: 1.85;
+            color: var(--iconfont-2-ink);
+        }
+
+        .iconfont-2-spec {
+            display: grid;
+            grid-template-columns: 7em 1fr;
+            font-size: 12.5px;
+        }
+        .iconfont-2-spec dt,
+        .iconfont-2-spec dd {
+            padding: 8px 0;
+            border-top: 1px solid var(--iconfont-2-rule);
+        }
+        .iconfont-2-spec dt {
+            color: var(--iconfont-2-muted);
+            letter-spacing: .04em;
+        }
+        .iconfont-2-spec dd {
+            color: var(--iconfont-2-soft);
+        }
+        .iconfont-2-spec dd:last-of-type,
+        .iconfont-2-spec dt:last-of-type {
+            border-bottom: 1px solid var(--iconfont-2-rule);
+        }
+
+        /* ——— 图标分组 ——— */
+        .iconfont-2-section {
+            padding-top: 56px;
+        }
+
+        .iconfont-2-section__head {
+            display: flex;
+            align-items: baseline;
+            gap: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--iconfont-2-ink);
+        }
+
+        .iconfont-2-section__title {
+            font-family: var(--iconfont-2-display);
+            font-size: 25px;
+            font-weight: 400;
+            letter-spacing: .01em;
+        }
+
+        .iconfont-2-section__note {
+            font-family: var(--iconfont-2-mono);
+            font-size: 11px;
+            color: var(--iconfont-2-muted);
+        }
+
+        .iconfont-2-section__count {
+            margin-left: auto;
+            font-family: var(--iconfont-2-mono);
+            font-size: 11px;
+            color: var(--iconfont-2-muted);
+        }
+
+        .iconfont-2-glyphs {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            border-left: 1px solid var(--iconfont-2-rule);
+        }
+
+        .iconfont-2-glyph {
+            padding: 30px 10px 22px;
+            text-align: center;
+            border-right: 1px solid var(--iconfont-2-rule);
+            border-bottom: 1px solid var(--iconfont-2-rule);
+            transition: background .18s ease;
+        }
+
+        .iconfont-2-glyph:hover {
+            background: var(--iconfont-2-wash);
+        }
+
+        .iconfont-2-glyph__mark {
+            display: block;
+            height: 34px;
+            margin-bottom: 18px;
+            color: var(--iconfont-2-ink);
+        }
+
+        .iconfont-2-glyph__mark svg {
+            width: 34px;
+            height: 34px;
+            stroke-width: 1.6;
+            transition: stroke-width .18s ease, color .18s ease;
+        }
+
+        .iconfont-2-glyph:hover .iconfont-2-glyph__mark svg {
+            color: var(--iconfont-2-accent);
+            stroke-width: 2.4;
+        }
+
+        .iconfont-2-glyph__name {
+            display: block;
+            font-size: 13px;
+            color: var(--iconfont-2-ink);
+        }
+
+        .iconfont-2-glyph__code {
+            display: block;
+            margin-top: 3px;
+            font-family: var(--iconfont-2-mono);
+            font-size: 10.5px;
+            color: var(--iconfont-2-muted);
+            word-break: break-all;
+        }
+
+        /* ——— 用法 ——— */
+        .iconfont-2-colophon {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 40px;
+            padding: 48px 0 44px;
+            border-bottom: 1px solid var(--iconfont-2-rule);
+        }
+
+        .iconfont-2-colophon__title {
+            font-family: var(--iconfont-2-display);
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .iconfont-2-colophon p {
+            max-width: 58em;
+            font-size: 13.5px;
+            color: var(--iconfont-2-soft);
+        }
+        .iconfont-2-colophon p + p {
+            margin-top: 10px;
+        }
+
+        .iconfont-2-colophon code {
+            padding: 1px 6px;
+            font-family: var(--iconfont-2-mono);
+            font-size: 12px;
+            color: var(--iconfont-2-ink);
+            background: var(--iconfont-2-wash);
+            border-radius: 2px;
+        }
+
+        .iconfont-2-code {
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-left: 2px solid var(--iconfont-2-accent);
+            background: var(--iconfont-2-wash);
+            font-family: var(--iconfont-2-mono);
+            font-size: 12px;
+            line-height: 1.85;
+            color: var(--iconfont-2-soft);
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .iconfont-2-actions {
+            padding: 26px 0 0;
+        }
+
+        .iconfont-2-back {
+            display: inline-block;
+            font-size: 13px;
+            color: var(--iconfont-2-ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--iconfont-2-accent);
+            padding-bottom: 2px;
+            transition: color .18s ease;
+        }
+        .iconfont-2-back:hover {
+            color: var(--iconfont-2-accent);
+        }
+
+        .iconfont-2-back:focus-visible,
+        .iconfont-2-back:focus {
+            outline: 2px solid var(--iconfont-2-accent);
+            outline-offset: 4px;
+        }
+
+        /* ——— 页脚 ——— */
+        .iconfont-2-footer {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 28px 0 44px;
+            font-family: var(--iconfont-2-mono);
+            font-size: 11px;
+            color: var(--iconfont-2-muted);
+        }
+
+        /* ——— 响应式 ——— */
+        @media (max-width: 960px) {
+            .iconfont-2-wrap { padding: 0 28px; }
+            .iconfont-2-glyphs { grid-template-columns: repeat(4, 1fr); }
+            .iconfont-2-colophon { grid-template-columns: 1fr; gap: 18px; }
+        }
+
+        @media (max-width: 720px) {
+            .iconfont-2-plate { grid-template-columns: 1fr; }
+            .iconfont-2-plate__figure {
+                padding: 40px 0 32px;
+                border-right: 0;
+                border-bottom: 1px solid var(--iconfont-2-rule);
+            }
+            .iconfont-2-plate__notes {
+                padding: 32px 0 40px;
+                gap: 24px;
+            }
+            .iconfont-2-glyphs { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 520px) {
+            .iconfont-2-wrap { padding: 0 20px; }
+            .iconfont-2-glyphs { grid-template-columns: repeat(2, 1fr); }
+            .iconfont-2-section__note { display: none; }
+            .iconfont-2-spec { grid-template-columns: 6em 1fr; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="iconfont-2-masthead">
+        <div class="iconfont-2-wrap">
+            <div class="iconfont-2-masthead__bar">
+                <span>SVG 线稿标本</span>
+                <span>Lucide 0.454.0</span>
+                <span>共 <b id="iconfont-2-count">0</b> 枚 · 断网可用</span>
+            </div>
+            <h1 class="iconfont-2-masthead__title">
+                <span class="iconfont-2-masthead__en">Lucide</span>
+                <span class="iconfont-2-masthead__zh">线稿图标</span>
+            </h1>
+            <p class="iconfont-2-masthead__lede">
+                每一个图标都是一组路径，不依附于字体。它更像一张图纸：换一个尺寸，
+                就重新描一遍，线还是那根线。
+            </p>
+        </div>
+    </header>
+
+    <main class="iconfont-2-wrap">
+
+        <section class="iconfont-2-plate">
+            <div class="iconfont-2-plate__figure">
+                <i data-lucide="pen-tool" aria-hidden="true"></i>
+                <span class="iconfont-2-plate__caption">path / pen-tool / viewBox 24 × 24</span>
+            </div>
+            <div class="iconfont-2-plate__notes">
+                <p class="iconfont-2-plate__lead">
+                    线条落在 24 × 24 的坐标里，粗细由描边决定。放大之后，边缘依旧清晰，
+                    不需要另一套文件。
+                </p>
+                <dl class="iconfont-2-spec">
+                    <dt>图标库</dt>
+                    <dd>Lucide 0.454.0</dd>
+                    <dt>画布</dt>
+                    <dd>24 × 24 视图框</dd>
+                    <dt>描边</dt>
+                    <dd>页面设定 1.6，悬停加粗至 2.4</dd>
+                    <dt>渲染</dt>
+                    <dd>本地脚本替换为内联 SVG</dd>
+                    <dt>许可</dt>
+                    <dd>ISC</dd>
+                </dl>
+            </div>
+        </section>
+
+        <section class="iconfont-2-section">
+            <div class="iconfont-2-section__head">
+                <h2 class="iconfont-2-section__title">常用</h2>
+                <span class="iconfont-2-section__note">日常界面</span>
+                <span class="iconfont-2-section__count">12 枚</span>
+            </div>
+            <ul class="iconfont-2-glyphs">
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="house"></i></span>
+                    <span class="iconfont-2-glyph__name">首页</span>
+                    <code class="iconfont-2-glyph__code">house</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="user"></i></span>
+                    <span class="iconfont-2-glyph__name">用户</span>
+                    <code class="iconfont-2-glyph__code">user</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="settings"></i></span>
+                    <span class="iconfont-2-glyph__name">设置</span>
+                    <code class="iconfont-2-glyph__code">settings</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="heart"></i></span>
+                    <span class="iconfont-2-glyph__name">喜欢</span>
+                    <code class="iconfont-2-glyph__code">heart</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="star"></i></span>
+                    <span class="iconfont-2-glyph__name">收藏</span>
+                    <code class="iconfont-2-glyph__code">star</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="bell"></i></span>
+                    <span class="iconfont-2-glyph__name">通知</span>
+                    <code class="iconfont-2-glyph__code">bell</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="search"></i></span>
+                    <span class="iconfont-2-glyph__name">搜索</span>
+                    <code class="iconfont-2-glyph__code">search</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="mail"></i></span>
+                    <span class="iconfont-2-glyph__name">邮件</span>
+                    <code class="iconfont-2-glyph__code">mail</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="calendar"></i></span>
+                    <span class="iconfont-2-glyph__name">日历</span>
+                    <code class="iconfont-2-glyph__code">calendar</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="camera"></i></span>
+                    <span class="iconfont-2-glyph__name">相机</span>
+                    <code class="iconfont-2-glyph__code">camera</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="message-circle"></i></span>
+                    <span class="iconfont-2-glyph__name">消息</span>
+                    <code class="iconfont-2-glyph__code">message-circle</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="thumbs-up"></i></span>
+                    <span class="iconfont-2-glyph__name">点赞</span>
+                    <code class="iconfont-2-glyph__code">thumbs-up</code>
+                </li>
+            </ul>
+        </section>
+
+        <section class="iconfont-2-section">
+            <div class="iconfont-2-section__head">
+                <h2 class="iconfont-2-section__title">方向</h2>
+                <span class="iconfont-2-section__note">导航与跳转</span>
+                <span class="iconfont-2-section__count">10 枚</span>
+            </div>
+            <ul class="iconfont-2-glyphs">
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="arrow-left"></i></span>
+                    <span class="iconfont-2-glyph__name">左箭头</span>
+                    <code class="iconfont-2-glyph__code">arrow-left</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="arrow-right"></i></span>
+                    <span class="iconfont-2-glyph__name">右箭头</span>
+                    <code class="iconfont-2-glyph__code">arrow-right</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="arrow-up"></i></span>
+                    <span class="iconfont-2-glyph__name">上箭头</span>
+                    <code class="iconfont-2-glyph__code">arrow-up</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="arrow-down"></i></span>
+                    <span class="iconfont-2-glyph__name">下箭头</span>
+                    <code class="iconfont-2-glyph__code">arrow-down</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="chevron-right"></i></span>
+                    <span class="iconfont-2-glyph__name">右尖角</span>
+                    <code class="iconfont-2-glyph__code">chevron-right</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="refresh-cw"></i></span>
+                    <span class="iconfont-2-glyph__name">刷新</span>
+                    <code class="iconfont-2-glyph__code">refresh-cw</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="download"></i></span>
+                    <span class="iconfont-2-glyph__name">下载</span>
+                    <code class="iconfont-2-glyph__code">download</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="upload"></i></span>
+                    <span class="iconfont-2-glyph__name">上传</span>
+                    <code class="iconfont-2-glyph__code">upload</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="share-2"></i></span>
+                    <span class="iconfont-2-glyph__name">分享</span>
+                    <code class="iconfont-2-glyph__code">share-2</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="external-link"></i></span>
+                    <span class="iconfont-2-glyph__name">外链</span>
+                    <code class="iconfont-2-glyph__code">external-link</code>
+                </li>
+            </ul>
+        </section>
+
+        <section class="iconfont-2-section">
+            <div class="iconfont-2-section__head">
+                <h2 class="iconfont-2-section__title">文件与数据</h2>
+                <span class="iconfont-2-section__note">文档处理</span>
+                <span class="iconfont-2-section__count">10 枚</span>
+            </div>
+            <ul class="iconfont-2-glyphs">
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="file-text"></i></span>
+                    <span class="iconfont-2-glyph__name">文档</span>
+                    <code class="iconfont-2-glyph__code">file-text</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="folder"></i></span>
+                    <span class="iconfont-2-glyph__name">文件夹</span>
+                    <code class="iconfont-2-glyph__code">folder</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="image"></i></span>
+                    <span class="iconfont-2-glyph__name">图片</span>
+                    <code class="iconfont-2-glyph__code">image</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="database"></i></span>
+                    <span class="iconfont-2-glyph__name">数据库</span>
+                    <code class="iconfont-2-glyph__code">database</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="save"></i></span>
+                    <span class="iconfont-2-glyph__name">保存</span>
+                    <code class="iconfont-2-glyph__code">save</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="copy"></i></span>
+                    <span class="iconfont-2-glyph__name">复制</span>
+                    <code class="iconfont-2-glyph__code">copy</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="clipboard"></i></span>
+                    <span class="iconfont-2-glyph__name">剪贴板</span>
+                    <code class="iconfont-2-glyph__code">clipboard</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="trash-2"></i></span>
+                    <span class="iconfont-2-glyph__name">删除</span>
+                    <code class="iconfont-2-glyph__code">trash-2</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="pencil"></i></span>
+                    <span class="iconfont-2-glyph__name">编辑</span>
+                    <code class="iconfont-2-glyph__code">pencil</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="printer"></i></span>
+                    <span class="iconfont-2-glyph__name">打印</span>
+                    <code class="iconfont-2-glyph__code">printer</code>
+                </li>
+            </ul>
+        </section>
+
+        <section class="iconfont-2-section">
+            <div class="iconfont-2-section__head">
+                <h2 class="iconfont-2-section__title">媒体与生活</h2>
+                <span class="iconfont-2-section__note">设备与场景</span>
+                <span class="iconfont-2-section__count">18 枚</span>
+            </div>
+            <ul class="iconfont-2-glyphs">
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="play"></i></span>
+                    <span class="iconfont-2-glyph__name">播放</span>
+                    <code class="iconfont-2-glyph__code">play</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="pause"></i></span>
+                    <span class="iconfont-2-glyph__name">暂停</span>
+                    <code class="iconfont-2-glyph__code">pause</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="music"></i></span>
+                    <span class="iconfont-2-glyph__name">音乐</span>
+                    <code class="iconfont-2-glyph__code">music</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="video"></i></span>
+                    <span class="iconfont-2-glyph__name">视频</span>
+                    <code class="iconfont-2-glyph__code">video</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="volume-2"></i></span>
+                    <span class="iconfont-2-glyph__name">音量</span>
+                    <code class="iconfont-2-glyph__code">volume-2</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="wifi"></i></span>
+                    <span class="iconfont-2-glyph__name">无线网络</span>
+                    <code class="iconfont-2-glyph__code">wifi</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="battery"></i></span>
+                    <span class="iconfont-2-glyph__name">电池</span>
+                    <code class="iconfont-2-glyph__code">battery</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="cloud"></i></span>
+                    <span class="iconfont-2-glyph__name">云</span>
+                    <code class="iconfont-2-glyph__code">cloud</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="sun"></i></span>
+                    <span class="iconfont-2-glyph__name">晴天</span>
+                    <code class="iconfont-2-glyph__code">sun</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="moon"></i></span>
+                    <span class="iconfont-2-glyph__name">月亮</span>
+                    <code class="iconfont-2-glyph__code">moon</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="phone"></i></span>
+                    <span class="iconfont-2-glyph__name">电话</span>
+                    <code class="iconfont-2-glyph__code">phone</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="map-pin"></i></span>
+                    <span class="iconfont-2-glyph__name">定位</span>
+                    <code class="iconfont-2-glyph__code">map-pin</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="shopping-cart"></i></span>
+                    <span class="iconfont-2-glyph__name">购物车</span>
+                    <code class="iconfont-2-glyph__code">shopping-cart</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="credit-card"></i></span>
+                    <span class="iconfont-2-glyph__name">银行卡</span>
+                    <code class="iconfont-2-glyph__code">credit-card</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="lock"></i></span>
+                    <span class="iconfont-2-glyph__name">锁定</span>
+                    <code class="iconfont-2-glyph__code">lock</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="shield"></i></span>
+                    <span class="iconfont-2-glyph__name">安全</span>
+                    <code class="iconfont-2-glyph__code">shield</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="clock"></i></span>
+                    <span class="iconfont-2-glyph__name">时间</span>
+                    <code class="iconfont-2-glyph__code">clock</code>
+                </li>
+                <li class="iconfont-2-glyph">
+                    <span class="iconfont-2-glyph__mark" aria-hidden="true"><i data-lucide="bookmark"></i></span>
+                    <span class="iconfont-2-glyph__name">书签</span>
+                    <code class="iconfont-2-glyph__code">bookmark</code>
+                </li>
+            </ul>
+        </section>
+
+        <section class="iconfont-2-colophon">
+            <h2 class="iconfont-2-colophon__title">用法</h2>
+            <div>
+                <p>
+                    引入 <code>cdn/lucide/lucide.min.js</code> 后，用带有
+                    <code>data-lucide</code> 的占位元素写下图标名；页面加载完成后，
+                    脚本会把占位元素替换成真正的内联 <code>&lt;svg&gt;</code>。
+                </p>
+                <p>
+                    因为拿到的是 SVG 元素，颜色、描边粗细、圆角端点都可以直接用 CSS 控制，
+                    也可以复制这段 SVG 到别的页面里单独使用。
+                </p>
+                <pre class="iconfont-2-code">&lt;i data-lucide="house"&gt;&lt;/i&gt;
+
+&lt;script src="cdn/lucide/lucide.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;lucide.createIcons();&lt;/script&gt;</pre>
+            </div>
+        </section>
+
+        <div class="iconfont-2-actions">
+            <a href="index.html" class="iconfont-2-back">← 返回课堂目录</a>
+        </div>
+    </main>
+
+    <footer class="iconfont-2-wrap iconfont-2-footer">
+        <span>汤智科 · 《高级网页设计》课堂实践</span>
+        <span>SVG 线稿标本 · Lucide 0.454.0</span>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var iconfont2Placeholders = document.querySelectorAll('[data-lucide]');
+            lucide.createIcons();
+
+            var iconfont2Count = document.getElementById('iconfont-2-count');
+            if (iconfont2Count) {
+                iconfont2Count.textContent = iconfont2Placeholders.length;
+            }
+        });
+    </script>
+
+</body>
+</html>

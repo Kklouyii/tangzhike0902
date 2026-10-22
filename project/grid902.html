@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网格布局grid</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .photo_box{
+            display: grid;
+            /*网格分成3列，1fn表示每列的宽度为剩余宽度的1份*/
+            grid-template-columns: repeat(3,lfr);
+            grid-template-columns: 1fr 1fr 1fr;
+            gap:10px 15px;
+        }
+        .photo{
+            min-height:100px;
+            background-color: pink;
+            border: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://at.alicdn.com/t/c/font_5238922_hwhpa40lm0h.js?spm=a313x.manage_type_myprojects.i1.16.c5703a811ehbV5&file=font_5238922_hwhpa40lm0h.js"></script>
+    <link rel="stylesheet" href="./syg0902.css">
+    
+    <!-- 新增样式 -->
+    <style>
+        /* 1. 给 body 底部留出空间，防止内容被固定导航栏遮挡 */
+        body {
+            margin: 0;
+            padding-bottom: 70px; 
+        }
+
+        /* 2. 底部导航栏核心样式 */
+        .tab-nav {
+            position: fixed;       /* 固定定位 */
+            bottom: 0;             /* 贴在底部 */
+            left: 0;
+            width: 100%;
+            display: flex;         /* 开启 flex 布局实现横排 */
+            justify-content: space-around; /* 横向均匀分布 */
+            align-items: center;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08); /* 顶部轻微阴影 */
+            padding: 10px 0;
+            box-sizing: border-box;
+            z-index: 999;
+        }
+
+        /* 3. 导航项样式 */
+        .tab-item {
+            display: flex;
+            flex-direction: column; /* 图标和文字上下排列 */
+            align-items: center;
+            cursor: pointer;
+            color: #666666;         /* 默认文字和图标颜色 */
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        /* 4. 选中状态样式 */
+        .tab-item.active {
+            color: #007bff;         /* 激活时的主题色，可自定义 */
+        }
+
+        /* 5. SVG 图标样式 */
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            fill: currentColor;     /* 关键：让图标颜色跟随文字颜色变化 */
+        }
+    </style>
+</head>
+<body>
+    <h2>SVG图标</h2>
+    <p>页面内容...</p>
+    
+    <div class="tab-nav">
+        <!-- 添加了 onclick 事件和默认 active 类 -->
+        <div class="tab-item active" onclick="changeTab(0)">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-user"></use>
+            </svg>
+            <span>用户</span>
+        </div>
+        <div class="tab-item" onclick="changeTab(1)">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-message"></use>
+            </svg>
+            <span>消息</span>
+        </div>
+        <div class="tab-item" onclick="changeTab(2)">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-prompt"></use>
+            </svg>
+            <span>通知</span>
+        </div>
+        <div class="tab-item" onclick="changeTab(3)">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-settings"></use>
+            </svg>
+            <span>设置</span>
+        </div>
+    </div>
+
+    <script>
+        function changeTab(current) {
+            // 修复了原代码中 nav 未定义的问题
+            var items = nav.querySelectorAll('.tab-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+            }
+            current.classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+}
+body{
+    /* 用 flex 让 .parent 在视口中垂直+水平居中(从上到下居中) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.parent{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+    max-width: 760px;
+    margin: 0 auto;
+}
+h2{
+    text-align: center;
+    margin: 10px;
+    grid-column:span 4;
+}
+.box{
+    width: 160px;
+    height: 160px;
+    background: blue;
+    color: white;
+    font-size: 60px;
+    text-align: center;
+    line-height: 160px;
+    transition: all .8s;
+}
+/* class为box的元素，并且他是父元素的第2个孩子 */
+.box:nth-child(2){
+    background: red;
+    font-size: 120px;
+}
+/* hover是伪类，
+当鼠标悬停在box元素上时，执行样式 */
+.box:nth-child(3):hover{
+    border-radius: 50%;
+}
+.box:nth-child(4):hover{
+    /* box-shadow:阴影，参数：x轴偏移量，y轴偏移量，
+    模糊半径，阴影颜色 */
+    box-shadow: 10px 10px 10px #f00;
+}
+/* nth-of-type(4)是class为box的第四个元素 */
+.box:nth-of-type(4):hover{
+text-shadow: 10px 10px 10px yellow;
+}
+.box:nth-of-type(5):hover{
+    background:linear-gradient(to right,red,green,orange)
+}
+.box:nth-of-type(6){
+    background:radial-gradient(circle,red,green,orange)
+}
+.box:nth-of-type(7):hover{
+    /* 旋转 */
+   transform: rotateY(180deg);
+}
+.box:nth-of-type(8):hover{
+    /* 平移 */
+    transform: translate(50px,50px);
+}
+.box:nth-of-type(9):hover{
+    /* 倾斜 */
+    transform: skew(45deg, 45deg);
+}
+/*  */
+.box:nth-last-child(3):hover{
+    /* 缩放 */
+    transform: scale(0.5);
+}
+.box:nth-last-child(2):hover{
+    /* 旋转缩放 */
+    transform: rotate(45deg) scale(0.5);
+}
+.box:last-child:hover::before{
+ content: '#';
+ color: orange;
+}
+.box:nth-child(even)::first-letter{
+  color: purple;
+}
