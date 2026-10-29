@@ -13,7 +13,9 @@ if ($staged) {
     Write-Output "NOTHING_TO_COMMIT"
 }
 
-if (-not (git remote)) {
+if (git remote | Select-String -Pattern "^origin$") {
+    git remote set-url origin $RepoUrl
+} else {
     git remote add origin $RepoUrl
 }
 

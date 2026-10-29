@@ -15,7 +15,7 @@ description: 将当前《高级网页设计》课堂实践项目 git commit 并 
    powershell -ExecutionPolicy Bypass -File .trae/skills/push-to-github/scripts/push.ps1 -Message "<本次提交说明>"
    ```
 
-2. 脚本行为:git add -A → 有暂存变更则 commit(无变更输出 NOTHING_TO_COMMIT)→ 自动把 origin 设为 git@github.com:Kklouyii/tangzhike0902.git → push 当前分支并设置上游。
+2. 脚本行为:git add -A → 有暂存变更则 commit(无变更输出 NOTHING_TO_COMMIT)→ 确保 origin 指向 git@github.com:Kklouyii/tangzhike0902.git(已存在则 set-url 覆盖,其他命名远程如 gitee 不动)→ push 当前分支并设置上游。
 
 3. 结果判断:
    - PUSH_OK — 成功,报告仓库地址 https://github.com/Kklouyii/tangzhike0902
