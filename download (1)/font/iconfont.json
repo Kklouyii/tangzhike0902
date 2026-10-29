@@ -1,0 +1,37 @@
+{
+  "id": "5238922",
+  "name": "svg0902",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "48582126",
+      "name": "settings",
+      "font_class": "settings",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "48570049",
+      "name": "message",
+      "font_class": "message",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "48570058",
+      "name": "prompt",
+      "font_class": "prompt",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "48582121",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    }
+  ]
+}
