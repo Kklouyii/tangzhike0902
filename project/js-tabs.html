@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻选项卡 · 汤智科《高级网页设计》课堂实践</title>
+    <style>
+        :root {
+            --tzk-js-tabs-paper: #f2f3ef;
+            --tzk-js-tabs-ink: #15171c;
+            --tzk-js-tabs-muted: #666a73;
+            --tzk-js-tabs-rule: #d5d7d0;
+            --tzk-js-tabs-cobalt: #2743d6;
+            --tzk-js-tabs-serif: "Songti SC", "STSong", "SimSun", serif;
+            --tzk-js-tabs-sans: "Microsoft YaHei", "PingFang SC", sans-serif;
+            --tzk-js-tabs-mono: "JetBrains Mono", "Consolas", monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--tzk-js-tabs-paper);
+            color: var(--tzk-js-tabs-ink);
+            font-family: var(--tzk-js-tabs-sans);
+            font-size: 15px;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tzk-js-tabs-page {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 56px 24px 64px;
+        }
+
+        /* 刊头 */
+        .tzk-js-tabs-head {
+            padding-bottom: 22px;
+            border-bottom: 2px solid var(--tzk-js-tabs-ink);
+        }
+        .tzk-js-tabs-head__tag {
+            font-family: var(--tzk-js-tabs-mono);
+            font-size: 11.5px;
+            letter-spacing: .16em;
+            color: var(--tzk-js-tabs-muted);
+        }
+        .tzk-js-tabs-head__title {
+            font-family: var(--tzk-js-tabs-serif);
+            font-size: clamp(34px, 6vw, 48px);
+            font-weight: 400;
+            letter-spacing: .08em;
+            line-height: 1.15;
+            margin: 12px 0 14px;
+        }
+        .tzk-js-tabs-head__deck {
+            font-size: 14px;
+            color: var(--tzk-js-tabs-muted);
+            max-width: 34em;
+        }
+        .tzk-js-tabs-head__deck code {
+            font-family: var(--tzk-js-tabs-mono);
+            font-size: 12.5px;
+            color: var(--tzk-js-tabs-ink);
+            background: #e6e8e2;
+            padding: 1px 5px;
+        }
+
+        /* 选项卡标签栏 */
+        .tzk-tabs__tablist {
+            display: flex;
+            gap: clamp(18px, 5vw, 40px);
+            border-bottom: 1px solid var(--tzk-js-tabs-rule);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .tzk-tabs__tablist::-webkit-scrollbar { display: none; }
+
+        .tzk-tabs__tab {
+            appearance: none;
+            background: none;
+            border: 0;
+            padding: 15px 0 15px;
+            font-family: inherit;
+            font-size: 16px;
+            line-height: 1;
+            color: var(--tzk-js-tabs-muted);
+            white-space: nowrap;
+            cursor: pointer;
+            position: relative;
+            transition: color .18s ease;
+        }
+        .tzk-tabs__tab:hover { color: var(--tzk-js-tabs-ink); }
+        .tzk-tabs__tab:focus-visible {
+            outline: 2px solid var(--tzk-js-tabs-cobalt);
+            outline-offset: 4px;
+        }
+        .tzk-tabs__tab--active {
+            color: var(--tzk-js-tabs-ink);
+            font-weight: 700;
+        }
+        .tzk-tabs__tab--active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 3px;
+            background: var(--tzk-js-tabs-cobalt);
+        }
+
+        /* 内容面板 */
+        .tzk-tabs__panel {
+            display: none;
+            padding: 10px 0 0;
+        }
+        .tzk-tabs__panel--active {
+            display: block;
+            animation: tzk-js-tabs-rise .26s ease both;
+        }
+        @keyframes tzk-js-tabs-rise {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .tzk-tabs__story {
+            padding: 20px 0 18px;
+            border-bottom: 1px solid var(--tzk-js-tabs-rule);
+        }
+        .tzk-tabs__story:last-child { border-bottom: 0; }
+
+        .tzk-tabs__headline {
+            font-family: var(--tzk-js-tabs-serif);
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.45;
+            letter-spacing: .01em;
+            transition: color .18s ease;
+        }
+        .tzk-tabs__story:hover .tzk-tabs__headline { color: var(--tzk-js-tabs-cobalt); }
+
+        .tzk-tabs__desc {
+            margin-top: 7px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--tzk-js-tabs-muted);
+            max-width: 44em;
+        }
+
+        .tzk-tabs__meta {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+            font-family: var(--tzk-js-tabs-mono);
+            font-size: 11.5px;
+            letter-spacing: .04em;
+            color: var(--tzk-js-tabs-muted);
+        }
+        .tzk-tabs__meta time { color: var(--tzk-js-tabs-ink); }
+        .tzk-tabs__meta em {
+            font-style: normal;
+            color: var(--tzk-js-tabs-cobalt);
+        }
+
+        /* 实现说明 */
+        .tzk-js-tabs-note {
+            margin-top: 56px;
+            padding-top: 22px;
+            border-top: 2px solid var(--tzk-js-tabs-ink);
+        }
+        .tzk-js-tabs-note h2 {
+            font-family: var(--tzk-js-tabs-serif);
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            margin-bottom: 10px;
+        }
+        .tzk-js-tabs-note p {
+            font-size: 14px;
+            color: var(--tzk-js-tabs-muted);
+            max-width: 40em;
+        }
+        .tzk-js-tabs-note p code {
+            font-family: var(--tzk-js-tabs-mono);
+            font-size: 12.5px;
+            color: var(--tzk-js-tabs-ink);
+            background: #e6e8e2;
+            padding: 1px 5px;
+        }
+        .tzk-js-tabs-note pre {
+            margin-top: 16px;
+            padding: 18px 20px;
+            background: #e8eae4;
+            border-left: 3px solid var(--tzk-js-tabs-cobalt);
+            overflow-x: auto;
+        }
+        .tzk-js-tabs-note pre code {
+            font-family: var(--tzk-js-tabs-mono);
+            font-size: 12.5px;
+            line-height: 1.85;
+            color: var(--tzk-js-tabs-ink);
+            white-space: pre;
+        }
+
+        .tzk-js-tabs-foot {
+            margin-top: 44px;
+            padding-top: 16px;
+            border-top: 1px solid var(--tzk-js-tabs-rule);
+            font-family: var(--tzk-js-tabs-mono);
+            font-size: 11.5px;
+            color: var(--tzk-js-tabs-muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 18px;
+        }
+
+        @media (max-width: 560px) {
+            .tzk-js-tabs-page { padding: 40px 18px 48px; }
+            .tzk-tabs__headline { font-size: 18px; }
+            .tzk-tabs__desc { font-size: 13.5px; }
+            .tzk-tabs__tab { font-size: 15px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tzk-tabs__panel--active { animation: none; }
+            .tzk-tabs__tab,
+            .tzk-tabs__headline { transition: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tzk-js-tabs-page">
+        <header class="tzk-js-tabs-head">
+            <p class="tzk-js-tabs-head__tag">JavaScript 交互 · 选项卡</p>
+            <h1 class="tzk-js-tabs-head__title">新闻栏目</h1>
+            <p class="tzk-js-tabs-head__deck">
+                四个栏目共用一份外部脚本 <code>js/tabs.js</code>，点击栏目名称即可切换，当前项以钴蓝下划线标记。
+            </p>
+        </header>
+
+        <!-- 选项卡组件：容器加 data-tzk-tabs，按钮与面板的顺序一一对应 -->
+        <div class="tzk-js-tabs" data-tzk-tabs>
+            <div class="tzk-tabs__tablist" data-tzk-tabs-tablist role="tablist" aria-label="新闻栏目">
+                <button type="button" class="tzk-tabs__tab tzk-tabs__tab--active" role="tab"
+                        id="tzk-js-tabs-tab-domestic" aria-selected="true" aria-controls="tzk-js-tabs-panel-domestic"
+                        tabindex="0" data-tzk-tabs-tab>国内新闻</button>
+                <button type="button" class="tzk-tabs__tab" role="tab"
+                        id="tzk-js-tabs-tab-province" aria-selected="false" aria-controls="tzk-js-tabs-panel-province"
+                        tabindex="-1" data-tzk-tabs-tab>省内新闻</button>
+                <button type="button" class="tzk-tabs__tab" role="tab"
+                        id="tzk-js-tabs-tab-world" aria-selected="false" aria-controls="tzk-js-tabs-panel-world"
+                        tabindex="-1" data-tzk-tabs-tab>国际新闻</button>
+                <button type="button" class="tzk-tabs__tab" role="tab"
+                        id="tzk-js-tabs-tab-hot" aria-selected="false" aria-controls="tzk-js-tabs-panel-hot"
+                        tabindex="-1" data-tzk-tabs-tab>最热新闻</button>
+            </div>
+
+            <div class="tzk-tabs__panels">
+                <section class="tzk-tabs__panel tzk-tabs__panel--active" role="tabpanel"
+                         id="tzk-js-tabs-panel-domestic" aria-labelledby="tzk-js-tabs-tab-domestic" data-tzk-tabs-panel>
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">全国秋粮收购进入集中期，主产区烘干仓储能力持续扩容</h3>
+                        <p class="tzk-tabs__desc">
+                            各地粮食部门增设临时收储点，农户售粮排队时间明显缩短；烘干塔与仓储设施同步检修，
+                            尽量减少连阴雨天气带来的损耗。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T09:20">11-02 09:20</time> 本报记者</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">城市轨道交通新线进入空载试运行</h3>
+                        <p class="tzk-tabs__desc">
+                            新线完成全线联调，列车按运营时刻表空载行驶，重点检验信号系统与站台设备的联动。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T08:45">11-02 08:45</time> 城市新闻</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">冬季供暖管网检修完成，老旧小区换热站同步改造</h3>
+                        <p class="tzk-tabs__desc">
+                            供热企业提前完成管网打压测试，更换老化阀门与保温层，部分换热站加装远程监测设备。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-01T21:10">11-01 21:10</time> 民生观察</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">高校毕业生秋季招聘会启动，提供岗位逾三万个</h3>
+                        <p class="tzk-tabs__desc">
+                            招聘会分行业设置专区，制造业、信息技术与公共服务岗位占比靠前，现场同步提供简历诊断。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-01T19:02">11-01 19:02</time> 教育周刊</p>
+                    </article>
+                </section>
+
+                <section class="tzk-tabs__panel" role="tabpanel"
+                         id="tzk-js-tabs-panel-province" aria-labelledby="tzk-js-tabs-tab-province" data-tzk-tabs-panel>
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">省域医疗检查结果互认清单发布，覆盖十二类项目</h3>
+                        <p class="tzk-tabs__desc">
+                            清单内的检验检查结果在省内互认，患者跨院就诊时无需重复拍片，医生可通过平台调阅原始影像。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T10:12">11-02 10:12</time> 省报健康版</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">省内高速服务区充电桩加密，节假日排队压力缓解</h3>
+                        <p class="tzk-tabs__desc">
+                            主要服务区新增快充车位，配套储能柜削峰填谷，假期高峰时段单次充电等待时间缩短约三成。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T09:05">11-02 09:05</time> 交通资讯</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">秋冬季文旅消费季启动，多个景区延长开放时间</h3>
+                        <p class="tzk-tabs__desc">
+                            活动期间推出夜游线路与联票，博物馆、美术馆同步延时闭馆，部分场馆提供预约讲解。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-01T20:40">11-01 20:40</time> 文旅频道</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">山区县冷链物流中心投用，生鲜运输时间缩短一半</h3>
+                        <p class="tzk-tabs__desc">
+                            产地预冷、分拣包装与冷链运输集中到同一园区，果蔬出村到进城的中转环节减少两个。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-01T15:08">11-01 15:08</time> 县域经济</p>
+                    </article>
+                </section>
+
+                <section class="tzk-tabs__panel" role="tabpanel"
+                         id="tzk-js-tabs-panel-world" aria-labelledby="tzk-js-tabs-tab-world" data-tzk-tabs-panel>
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">多国气候会议继续磋商资金与技术合作机制</h3>
+                        <p class="tzk-tabs__desc">
+                            会议进入第二周，各方就资金规模、技术转移路径与透明度安排继续交换意见，工作组提交中期文本。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T12:30">11-02 12:30</time> 国际版</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">国际航运运价指数连续三周回落</h3>
+                        <p class="tzk-tabs__desc">
+                            主要航线运力投放增加，集装箱周转效率提升，多个港口拥堵指数降至年内低位。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T10:50">11-02 10:50</time> 经贸观察</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">欧洲多国推进电网改造，储能项目集中并网</h3>
+                        <p class="tzk-tabs__desc">
+                            改造重点放在老化线路更换与并网调度，储能电站参与调峰，缓解新能源出力波动带来的压力。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T09:25">11-02 09:25</time> 驻外记者</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">国际空间站完成新一轮轨道调整</h3>
+                        <p class="tzk-tabs__desc">
+                            货运飞船点火抬升轨道，为后续飞船交会对接做准备，站上科研载荷按计划继续运行。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-01T17:45">11-01 17:45</time> 科技版</p>
+                    </article>
+                </section>
+
+                <section class="tzk-tabs__panel" role="tabpanel"
+                         id="tzk-js-tabs-panel-hot" aria-labelledby="tzk-js-tabs-tab-hot" data-tzk-tabs-panel>
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">城市夜间经济街区客流创新高，周末延时营业</h3>
+                        <p class="tzk-tabs__desc">
+                            街区延长营业至深夜，公共交通同步加密末班车次，商户反映晚间时段营业额占比明显上升。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T13:05">11-02 13:05</time> 城市生活</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">智能家居隐私设置引发讨论，厂商上线一键关闭</h3>
+                        <p class="tzk-tabs__desc">
+                            新版本增加本地处理选项，语音与影像数据可不上传云端，权限页面同时列出设备调用记录。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T12:20">11-02 12:20</time> 科技热点</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">老旧电梯更新改造提速，首批小区完成验收</h3>
+                        <p class="tzk-tabs__desc">
+                            改造方案在施工期间保留一部电梯运行，验收环节增加困人救援演练与制动测试。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T11:35">11-02 11:35</time> 社区新闻</p>
+                    </article>
+
+                    <article class="tzk-tabs__story">
+                        <h3 class="tzk-tabs__headline">中小学课后服务新增体育课程，参与率超过八成</h3>
+                        <p class="tzk-tabs__desc">
+                            学校与周边场馆合作开设球类与体能课，课后服务时段延长，学生可自愿选择项目。
+                        </p>
+                        <p class="tzk-tabs__meta"><time datetime="2026-11-02T10:15">11-02 10:15</time> 教育周刊</p>
+                    </article>
+                </section>
+            </div>
+        </div>
+
+        <section class="tzk-js-tabs-note">
+            <h2>实现要点</h2>
+            <p>
+                切换逻辑集中在 <code>js/tabs.js</code>，用事件监听加事件委托绑定标签栏，任何页面只要按
+                <code>data-tzk-tabs</code> 标注结构，引入同一个脚本即可复用。
+            </p>
+            <pre><code>// 事件监听：委托绑定在标签栏上
+tablist.addEventListener('click', jsTabsHandleClick);
+
+// 第一步：清除所有选项卡的选中状态
+tabs[i].classList.remove('tzk-tabs__tab--active');
+panels[i].classList.remove('tzk-tabs__panel--active');
+
+// 第二步：再设置当前元素的选中状态
+current.classList.add('tzk-tabs__tab--active');</code></pre>
+        </section>
+
+        <footer class="tzk-js-tabs-foot">
+            <span>汤智科 · 24001010902</span>
+            <span>《高级网页设计》课堂实践</span>
+            <span>示例内容，非真实新闻</span>
+        </footer>
+    </div>
+
+    <script src="js/tabs.js"></script>
+</body>
+</html>
