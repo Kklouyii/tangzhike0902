@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Swiper AI 三任务作业 · 提示词与对话全记录</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<link rel="stylesheet" href="swiper/swiper-bundle.min.css">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -102,7 +102,7 @@
 
   /* 第 1 版 vs 第 2 版 左右对比 */
   .compare { display: flex; gap: 16px; flex-wrap: wrap; align-items: stretch; margin: 14px 0; }
-  .compare .col { flex: 1 1 280px; display: flex; flex-direction: column; border: 1px solid #e3e9f4; border-radius: 10px; padding: 14px; background: #f8fafd; }
+  .compare .col { flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; border: 1px solid #e3e9f4; border-radius: 10px; padding: 14px; background: #f8fafd; }
   .compare .col pre.code { font-size: 11px; line-height: 1.6; padding: 10px 12px; margin: 6px 0; }
   .compare .col blockquote.prompt { font-size: 13px; padding: 8px 12px; margin: 6px 0; }
   .compare .col .swiper { height: 240px; }
@@ -307,7 +307,7 @@
   <footer>Swiper AI 协作三任务 · 提示词与对话全记录 · 学生:汤智科 学号:24001010902 · 高级网页设计 · 2026-2027-1</footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="swiper/swiper-bundle.min.js"></script>
 <script>
   // ── 任务一验证轮播 1:第 1 轮 AI 配置(缺陷复现) ──
   // AI 原配置分页器用类名,这里换成独立 id,避免两个验证轮播互相串
