@@ -165,14 +165,20 @@
       <div class="verdict bad">❌ 四条需求只撞对两条:没写 loop,翻到最后一张就断,做不到无缝循环;autoplay 没加 disableOnInteraction: false,手动一拖就停;圆点没加 clickable,只能看不能点;分页器还用了类名,多轮播页面会互相串。</div>
     </div>
     <div class="col">
-      <p class="verify-title"><span class="vs-flag ok">第 2 版</span>点名"手动之后也不能停"</p>
+      <p class="verify-title"><span class="vs-flag ok">第 2 版</span>针对第 1 版四个错误逐条修</p>
       <span class="label me">我的提示词(迭代)</span>
-      <blockquote class="prompt">上一版手动拖动之后自动播放会停。重新给一版:① 无缝循环;② 每 3.2 秒自动翻页,且用户手动拖动、点圆点之后也不能停;③ 圆点可点击跳转;④ effect 用 cube。</blockquote>
-      <span class="label ai">AI 回答</span>
+      <blockquote class="prompt">上一版有四个问题:① 没写 loop,翻到最后一张就断,做不到无缝循环;② autoplay 一拖就停;③ 圆点只能看不能点;④ 分页器用类名 .swiper-pagination,多轮播页面会互相串。请逐条修复,重新给一版:无缝循环;每 3.2 秒自动翻页,且用户手动拖动、点圆点之后也不能停;圆点可点击跳转;effect 用 cube;分页器指定我自己的 id(#pagFinal)。</blockquote>
+      <span class="label ai">AI 回答(逐条修复)</span>
       <pre class="code"><code>new Swiper('#mySw4', {
-  loop: true,
-  autoplay: { delay: 3200, disableOnInteraction: false },
-  pagination: { el: '.swiper-pagination', clickable: true },
+  loop: true,                          // 修① 无缝循环
+  autoplay: {
+    delay: 3200,
+    disableOnInteraction: false        // 修② 手动后不停
+  },
+  pagination: {
+    el: '#pagFinal',                   // 修④ 指定自己的 id
+    clickable: true                    // 修③ 圆点可点击
+  },
   effect: 'cube'
 });</code></pre>
       <div class="swiper" id="mySw4">
@@ -183,14 +189,14 @@
         </div>
         <div class="swiper-pagination" id="pagFinal"></div>
       </div>
-      <div class="verdict ok">✅ 四项全过:拖完 3.2 秒内照常继续自动翻页。</div>
+      <div class="verdict ok">✅ 四个错误逐条修复:无限循环、拖完照常播、圆点可点、分页器独立。</div>
     </div>
     </div>
-    <p class="hint">验证方法:左边拖到最后一张会卡住不再循环,而且拖一次就停、圆点点不动;右边能无限循环,拖完 3.2 秒照常继续——差别直接可见。分页器选择器粘的时候换成了各自独立 id,避免两个轮播共用类名互相串(这正是第 1 版的教训之一)。</p>
+    <p class="hint">验证方法:左边拖到最后一张会卡住不再循环,而且拖一次就停、圆点点不动;右边能无限循环,拖完 3.2 秒照常继续——差别直接可见。右列代码就是粘进页面跑的原样配置,四个注释对应第 1 版的四个错误。</p>
 
     <h3>答辩三问 · 我的回答</h3>
     <div class="qa"><p class="q">① 第一版提示词漏掉了哪个需求?</p><p class="a">其实不是漏了一条,是整条提示词太模糊:"效果要好看一点""配上圆点"这种描述 AI 只能按默认行为猜——无缝循环、手动后不停止、圆点可点击三条需求全没明说,四条只撞对了自动翻页和 cube 两条。</p></div>
-    <div class="qa"><p class="q">② 你是在第几轮里"说清楚"的?</p><p class="a">第 2 轮。把四条需求逐条编号写进提示词,尤其点名"用户手动拖动、点圆点之后也不能停止自动播放",不再让 AI 猜。</p></div>
+    <div class="qa"><p class="q">② 你是在第几轮里"说清楚"的?</p><p class="a">第 2 轮。把第 1 版实测出的四个错误逐条列给 AI,要求逐条修复,并把四条原始需求重新写全——尤其点名"用户手动拖动、点圆点之后也不能停止自动播放",不再让 AI 猜。</p></div>
     <div class="qa"><p class="q">③ AI 第一次给的代码错在哪?</p><p class="a">少 loop: true(翻到最后一张就断);autoplay 里少 disableOnInteraction: false(默认 true,一拖就停);pagination 少 clickable: true(圆点只能看不能点);分页器还用了类名 .swiper-pagination,在多轮播页面里会匹配到别人家的分页器,更稳的写法是指定自己的 id。</p></div>
 
   </div>
