@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swiper AI 三任务作业 · 提示词与对话全记录</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", sans-serif;
+    background: #f4f6fb;
+    color: #333;
+    line-height: 1.8;
+    padding-bottom: 60px;
+  }
+  .wy-wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  .wy-head { padding: 46px 0 10px; }
+  .wy-badge {
+    display: inline-block;
+    font-size: 12px;
+    color: #4a6fb5;
+    background: #fff;
+    border: 1px solid #c9d6ee;
+    border-radius: 999px;
+    padding: 4px 14px;
+    letter-spacing: 2px;
+  }
+  .wy-head h1 { font-size: 30px; color: #1f2d3d; margin: 16px 0 6px; }
+  .wy-head h1 b { color: #1d4ed8; }
+  .wy-head .meta { color: #7a869c; font-size: 13px; }
+  .wy-head .meta a { color: #1d4ed8; text-decoration: none; }
+  .wy-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .wy-chips span {
+    font-size: 12px; color: #1d4ed8; background: #eaf1fe;
+    border: 1px solid #c9d6ee; border-radius: 999px; padding: 5px 14px;
+  }
+
+  .wy-card {
+    background: #fff;
+    border: 1px solid #e3e9f4;
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin-top: 26px;
+    box-shadow: 0 2px 8px rgba(60, 80, 180, .05);
+  }
+  .wy-card > h2 { font-size: 20px; color: #1f2d3d; margin-bottom: 4px; }
+  .wy-card > h2 .tag { font-size: 12px; color: #b45309; border: 1px solid #ecd9b0; background: #fff8e6; border-radius: 6px; padding: 2px 8px; vertical-align: 3px; margin-left: 10px; }
+  .wy-card > .lead { color: #7a869c; font-size: 13px; margin-bottom: 18px; }
+  .wy-card h3 { font-size: 15px; color: #1d4ed8; margin: 22px 0 10px; }
+  .wy-card h4 { font-size: 13px; color: #33415c; margin: 18px 0 8px; }
+  .wy-card p { font-size: 14px; color: #4a5568; }
+  .wy-card ul { margin: 8px 0 8px 22px; }
+  .wy-card li { font-size: 14px; color: #4a5568; margin: 4px 0; }
+
+  code.inline {
+    background: #eef3fa; border: 1px solid #dbe4f2; border-radius: 4px;
+    padding: 1px 6px; color: #1d4ed8; font-size: 13px;
+    font-family: Consolas, "Courier New", monospace;
+  }
+  pre.code {
+    background: #0f1b2d; border: 1px solid #dbe4f2; border-radius: 8px;
+    padding: 14px 16px; overflow-x: auto; margin: 10px 0 6px;
+  }
+  pre.code, pre.code code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px; color: #a5d6ff; line-height: 1.7;
+  }
+  blockquote.prompt {
+    background: #fff8e6;
+    border-left: 3px solid #f0a70a;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px; margin: 10px 0;
+    color: #6b5a2a; font-size: 14px;
+  }
+  blockquote.ai {
+    background: #eff6ff;
+    border-left: 3px solid #3b82f6;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px; margin: 10px 0;
+    color: #33527a; font-size: 14px;
+  }
+  .label { display: inline-block; font-size: 12px; border-radius: 6px; padding: 2px 10px; margin-bottom: 6px; }
+  .label.me { background: #fff3d1; color: #92650a; border: 1px solid #ecd9b0; }
+  .label.ai { background: #e3eefe; color: #1d4ed8; border: 1px solid #c9d6ee; }
+  .label.ok { background: #e6f7ef; color: #147a4d; border: 1px solid #bfe8d2; }
+  .label.bad { background: #fdeaea; color: #b23b3b; border: 1px solid #f3c1c1; }
+
+  .verdict { border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-size: 14px; }
+  .verdict.ok { background: #eefbf4; border: 1px solid #bfe8d2; color: #147a4d; }
+  .verdict.bad { background: #fdf0f0; border: 1px solid #f3c1c1; color: #a33; }
+
+  .shot { display: block; max-width: 100%; border: 1px solid #dfe6f2; border-radius: 8px; margin: 10px 0 4px; }
+  .shot-cap { font-size: 12px; color: #7a869c; margin-bottom: 8px; }
+
+  .verify-title { font-size: 13px; color: #b45309; margin-bottom: 8px; }
+  .swiper { width: 100%; height: 300px; border-radius: 8px; overflow: hidden; }
+  .swiper img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .swiper .swiper-pagination-bullet-active { background: #3b82f6; }
+  .hint { font-size: 12px; color: #7a869c; margin-top: 8px; }
+
+  /* 第 1 版 vs 第 2 版 左右对比 */
+  .compare { display: flex; gap: 16px; flex-wrap: wrap; align-items: stretch; margin: 14px 0; }
+  .compare .col { flex: 1 1 280px; display: flex; flex-direction: column; border: 1px solid #e3e9f4; border-radius: 10px; padding: 14px; background: #f8fafd; }
+  .compare .col pre.code { font-size: 11px; line-height: 1.6; padding: 10px 12px; margin: 6px 0; }
+  .compare .col blockquote.prompt { font-size: 13px; padding: 8px 12px; margin: 6px 0; }
+  .compare .col .swiper { height: 240px; }
+  .compare .col .verdict { margin-top: 10px; font-size: 13px; }
+  .vs-flag {
+    display: inline-block; font-size: 12px; color: #fff; border-radius: 6px;
+    padding: 2px 10px; vertical-align: 2px;
+  }
+  .vs-flag.bad { background: #c2564f; }
+  .vs-flag.ok { background: #2e9e6b; }
+
+  .qa { margin: 8px 0; }
+  .qa .q { color: #b45309; font-size: 14px; }
+  .qa .a { color: #4a5568; font-size: 14px; margin-top: 4px; }
+
+  .wy-back { text-align: center; margin-top: 30px; font-size: 14px; }
+  .wy-back a { color: #1d4ed8; text-decoration: none; margin: 0 10px; }
+  .wy-back a:hover { text-decoration: underline; }
+  footer { text-align: center; color: #9aa5b8; font-size: 12px; margin-top: 26px; }
+</style>
+</head>
+<body>
+<div class="wy-wrap">
+
+  <div class="wy-head">
+    <span class="wy-badge">AI 协作三任务 · 下次课答辩抽查</span>
+    <h1>Swiper <b>AI 三任务</b> · 提示词与对话全记录</h1>
+    <p class="meta">学生:汤智科 · 学号:24001010902 · 高级网页设计 · 2026-2027-1 · 配套实操页:<a href="swiper-task.html" style="color:#60a5fa;">大国重器光影展 →</a></p>
+    <div class="wy-chips">
+      <span>任务一 提示词工程师 ★</span>
+      <span>任务二 creative 电影墙 ★★</span>
+      <span>任务三 第六件展品 + keyboard ★★★</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════ 任务一 ═══════════════ -->
+  <div class="wy-card">
+    <h2>任务一 · 提示词工程师<span class="tag">不写代码,只写提示词</span></h2>
+    <p class="lead">把四条需求翻译给 AI,让它生成 new Swiper('#mySw4', {...}) 配置:① 无缝循环 ② 3.2 秒自动翻页且手动操作后不停止 ③ 圆点分页器可点击 ④ 初始效果为 cube。至少迭代 2 轮,保留每轮提示词与 AI 回答,并亲自粘进页面验证。</p>
+
+    <div class="compare">
+    <div class="col">
+      <p class="verify-title"><span class="vs-flag bad">第 1 版</span>提示词漏了"手动后不停止"</p>
+      <span class="label me">我的提示词</span>
+      <blockquote class="prompt">帮我用 Swiper 11 写一个轮播配置:可以无缝循环;每 3.2 秒自动翻页;底部有圆点分页器,圆点可以点击跳转;切换效果用 cube 立方体。</blockquote>
+      <span class="label ai">AI 回答</span>
+      <pre class="code"><code>new Swiper('#mySw4', {
+  loop: true,
+  autoplay: { delay: 3200 },
+  pagination: { el: '.swiper-pagination', clickable: true },
+  effect: 'cube'
+});</code></pre>
+      <div class="swiper" id="mySw4R1">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="swiper-imgs/tiangong_1.jpg" alt="天宫空间站"></div>
+          <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"></div>
+        </div>
+        <div class="swiper-pagination" id="pagR1"></div>
+      </div>
+      <div class="verdict bad">❌ 拖一次就停:AI 默认 disableOnInteraction: true,需求②"手动操作后不停止"不满足。</div>
+    </div>
+    <div class="col">
+      <p class="verify-title"><span class="vs-flag ok">第 2 版</span>点名"手动之后也不能停"</p>
+      <span class="label me">我的提示词(迭代)</span>
+      <blockquote class="prompt">上一版手动拖动之后自动播放会停。重新给一版:① 无缝循环;② 每 3.2 秒自动翻页,且用户手动拖动、点圆点之后也不能停;③ 圆点可点击跳转;④ effect 用 cube。</blockquote>
+      <span class="label ai">AI 回答</span>
+      <pre class="code"><code>new Swiper('#mySw4', {
+  loop: true,
+  autoplay: { delay: 3200, disableOnInteraction: false },
+  pagination: { el: '.swiper-pagination', clickable: true },
+  effect: 'cube'
+});</code></pre>
+      <div class="swiper" id="mySw4">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="swiper-imgs/adora_1.jpg" alt="爱达·魔都号"></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fuxing_1.jpg" alt="复兴号"></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"></div>
+        </div>
+        <div class="swiper-pagination" id="pagFinal"></div>
+      </div>
+      <div class="verdict ok">✅ 四项全过:拖完 3.2 秒内照常继续自动翻页。</div>
+    </div>
+    </div>
+    <p class="hint">验证方法:两个轮播各拖动一次,等 5 秒——左边停、右边继续,差别直接可见。分页器选择器粘的时候换成了各自独立 id,避免两个轮播共用类名互相串(这正是答辩③的教训)。</p>
+
+    <h3>答辩三问 · 我的回答</h3>
+    <div class="qa"><p class="q">① 第一版提示词漏掉了哪个需求?</p><p class="a">漏了"手动操作之后不停止"。我只写了"3.2 秒自动翻页",没想到 Swiper 默认把用户交互当成"停止自动播放"的信号。</p></div>
+    <div class="qa"><p class="q">② 你是在第几轮里"说清楚"的?</p><p class="a">第 2 轮。直接点名"用户手动拖动、点圆点之后也不能停止自动播放",不再让 AI 猜。</p></div>
+    <div class="qa"><p class="q">③ AI 第一次给的代码错在哪?</p><p class="a">autoplay 里少写 disableOnInteraction: false(默认 true,一拖就停);另外分页器用了类名 .swiper-pagination,在多轮播页面里会匹配到别人家的分页器,更稳的写法是指定自己的 id。</p></div>
+
+  </div>
+
+  <!-- ═══════════════ 任务二 ═══════════════ -->
+  <div class="wy-card">
+    <h2>任务二 · creative 电影墙<span class="tag">课堂没讲,AI 教我</span></h2>
+    <p class="lead">课堂讲了 6 种 effect,Swiper 还有第 7 种 creative(自定义变换)。打开官方示例 swiper/demo/257-effect-creative.html,配合 AI 读懂 creativeEffect 的 transform 写法,为演示四新增第 7 个按钮「creative 电影墙」:上一张缩小左移带角度,下一张放大右侧进场。</p>
+
+    <h3>学习过程(官方示例 + AI 追问记录)</h3>
+    <span class="label me">我问 AI</span>
+    <blockquote class="prompt">我在看官方示例 257-effect-creative.html,creativeEffect 里 prev 和 next 各是一组 transform(translate / rotate / shadow)。请解释这个效果的工作方式和每个字段的方向含义,先不要改我的代码。</blockquote>
+    <span class="label ai">AI 回答(要点)</span>
+    <blockquote class="ai">creative 效果会给每张 slide 按切换进度做"状态插值":prev 描述活跃张之前(已经看过)的卡片长什么样,next 描述活跃张之后(还没看)的卡片长什么样。translate 依次是 x / y / z:x、y 支持百分比(相对 slide 自身宽高),z 是像素级前后距离;rotate 是绕 x / y / z 三轴的角度(度);scale 是缩放倍数;shadow: true 给非活跃卡片加投影。切换时每张卡片从"当前状态"被插值到 prev / next 定义的目标状态。</blockquote>
+
+    <h3>我写的电影墙配置(已加进光影展演示四,第 7 个按钮)</h3>
+    <pre class="code"><code>if (btn.dataset.fx === 'creative') {
+  cfg.creativeEffect = {
+    prev: {
+      shadow: true,
+      translate: ['-92%', 0, -450],  // 整张退到左侧,后退 450px
+      rotate: [0, 0, -10],           // 带 -10 度倾角
+      scale: 0.85                    // 缩小
+    },
+    next: {
+      shadow: true,
+      translate: ['92%', 0, -200],   // 从右侧一个卡位外进场
+      scale: 1.12                    // 放大进场
+    }
+  };
+}</code></pre>
+
+    <h3>追问 AI + 我自己的话</h3>
+    <div class="qa"><p class="q">Q:prev / next 的 transform 各控制什么?</p>
+    <p class="a">我的回答:prev 控制"已经看过的上一张"的<b>退场姿态</b>——整张退到当前卡左侧一个卡位之外(translate -92%)、向后退 450 个像素、缩小到 0.85、绕 z 轴歪 -10 度、压上阴影;next 控制"即将进来的下一张"的<b>进场姿态</b>——停在当前卡右侧 92% 处、放大到 1.12 倍带着阴影等待,切换时从右侧滑进来,越靠近当前卡位缩放越回落到 1。一个管"走出去的样子",一个管"走进来的样子"。</p></div>
+
+    <h3>现场实操 · 点箭头看电影墙切换</h3>
+    <div class="swiper" id="crSw">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="swiper-imgs/tiangong_1.jpg" alt="天宫空间站"></div>
+        <div class="swiper-slide"><img src="swiper-imgs/adora_1.jpg" alt="爱达·魔都号"></div>
+        <div class="swiper-slide"><img src="swiper-imgs/fuxing_1.jpg" alt="复兴号"></div>
+        <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"></div>
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+    <p class="hint">实操方法:点右侧箭头 → 下一张从右侧放大进场;点左侧箭头 → 上一张缩小左移带 -10 度倾角退场。这与光影展演示四第 7 个按钮「creative 电影墙」用的是同一套 creativeEffect 配置。</p>
+
+    <h3>答辩两问 · 我的回答</h3>
+    <div class="qa"><p class="q">① transform 里的百分号是相对谁的?</p><p class="a">相对 slide 自身的尺寸:translate 的第 1 个百分比相对 slide 的宽度,第 2 个相对 slide 的高度,第 3 个值是像素级的 z 轴距离。不是相对容器,也不是相对窗口。</p></div>
+    <div class="qa"><p class="q">② 改一个数值让卡片转 20 度试试?</p><p class="a">把 prev 的 rotate 从 [0, 0, -10] 改成 [0, 0, -20],左侧那张卡就会带 20 度的倾斜;next 改成 [0, 0, 20] 则是右侧那张带 20 度进场。我已在本地改过并实测生效。</p></div>
+  </div>
+
+  <!-- ═══════════════ 任务三 ═══════════════ -->
+  <div class="wy-card">
+    <h2>任务三 · 第六件展品 + keyboard<span class="tag">综合创作 + 技术答辩</span></h2>
+    <p class="lead">① 为光影展添加第六件展品「爱达·魔都号」(首艘国产大型邮轮,2024 年 1 月首航),图片用 AI 生成(横版 16:9),slide 结构完整;② 从课堂讲过的 keyboard / mousewheel / zoom / parallax 中挑一个加上去。</p>
+
+    <h3>第六件展品 · 爱达·魔都号</h3>
+    <img class="shot" src="swiper-imgs/adora_1.jpg" alt="爱达·魔都号 AI 生成图">
+    <p class="shot-cap">AI 生成图(横版 16:9):金色黄昏海面上的爱达·魔都号——白色多层船体、红金色烟囱、深蓝色船头。已存为本地文件 swiper-imgs/adora_1.jpg,并同步加进演示一~四全部四个轮播。</p>
+    <pre class="code"><code>&lt;div class="swiper-slide"&gt;
+  &lt;img src="swiper-imgs/adora_1.jpg" alt="爱达·魔都号"&gt;
+  &lt;div class="wy-cap"&gt;
+    &lt;h3&gt;爱达·魔都号&lt;/h3&gt;
+    &lt;p&gt;首艘国产大型邮轮 · 2024 年 1 月首航&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>超纲能力 · keyboard 键盘控制(加在演示一)</h3>
+    <pre class="code"><code>new Swiper('#wySw1', {
+  keyboard: true
+});</code></pre>
+    <p>用法:打开光影展页面,点一下页面任意位置获得焦点,按 ← / → 方向键即可翻动演示一轮播。</p>
+
+    <h3>现场实操 · keyboard 键盘控制</h3>
+    <div class="swiper" id="kbSw">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="swiper-imgs/tiangong_1.jpg" alt="天宫空间站"></div>
+        <div class="swiper-slide"><img src="swiper-imgs/adora_1.jpg" alt="爱达·魔都号"></div>
+        <div class="swiper-slide"><img src="swiper-imgs/fuxing_1.jpg" alt="复兴号"></div>
+        <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"></div>
+        <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"></div>
+        <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"></div>
+      </div>
+      <div class="swiper-pagination" id="pagKb"></div>
+    </div>
+    <p class="hint">实操方法:先用鼠标点一下上面这张轮播,再按键盘 ← / → 方向键即可翻页(共 6 件展品,含新增的第六件「爱达·魔都号」)。因为 keyboard 默认 onlyInViewport: true,只有滚到可视区域内它才响应按键,不会和页面其它轮播抢键盘。</p>
+
+    <h3>与 AI 的关键对话记录</h3>
+    <span class="label me">提示词 1</span>
+    <blockquote class="prompt">为我的 Swiper 光影展新增第六件展品「爱达·魔都号」(首艘国产大型邮轮,2024 年 1 月首航):slide 结构和现有展品保持一致(img + wy-cap 说明层),图片请给我一张横版 16:9 的邮轮图。</blockquote>
+    <span class="label ai">AI 第一次回答的问题</span>
+    <blockquote class="ai">AI 给的 slide 结构基本对,但 img 用了一个网络占位图地址(断网就裂,也不是 AI 生成),还丢了 wy-cap 说明层。</blockquote>
+    <span class="label me">我的修改</span>
+    <blockquote class="prompt">图片不用网络地址,我已经用 AI 生成好本地图 swiper-imgs/adora_1.jpg;补全 wy-cap 标题和副标题;另外这张展品要同步加到页面里演示一~演示四全部四个轮播,保持展品数一致。</blockquote>
+    <span class="label me">提示词 2</span>
+    <blockquote class="prompt">再从课堂上讲过的 keyboard / mousewheel / zoom / parallax 里挑一个加到光影展上,要能在答辩时现场演示,给我最直观的那个并说明配置。</blockquote>
+    <span class="label ai">AI 回答(要点)</span>
+    <blockquote class="ai">推荐 keyboard:键盘控制最直观、答辩最好演示。配置 keyboard: true 即可,模块默认带 onlyInViewport: true——只有轮播在可视区域内才响应方向键,页面上有多个轮播时不会互相抢按键。</blockquote>
+
+    <h3>答辩四问 · 我的回答</h3>
+    <div class="qa"><p class="q">① 这段代码什么意思?</p><p class="a">new Swiper('#wySw1', { keyboard: true }) —— 重建演示一轮播并启用 keyboard 模块;这个模块监听键盘方向键,enabled 时按 ← / → 分别触发 slidePrev / slideNext 完成翻页。</p></div>
+    <div class="qa"><p class="q">② AI 第一次给的哪里不对,你改了什么?</p><p class="a">图片用了网络占位图链接,断网就裂,也不符合"图片用 AI 生成"的要求;wy-cap 说明层还丢了。我换成本地生成的 swiper-imgs/adora_1.jpg,补全标题与副标题,并把这张展品同步进四个演示轮播。</p></div>
+    <div class="qa"><p class="q">③ 新参数的作用?</p><p class="a">keyboard: true 启用键盘控制;它默认带 onlyInViewport: true,只有轮播在可视区域内才响应方向键——光影展页面上有 4 个轮播,这样不会互相抢按键。</p></div>
+    <div class="qa"><p class="q">④ 现场把 delay 改成 6000 并解释预期变化?</p><p class="a">autoplay.delay 从 3200 改成 6000(单位毫秒),每张图停留 6 秒才自动翻页,节奏明显变慢;因为配置里 disableOnInteraction: false,手动拖动之后它依然会按 6 秒的节奏继续播。</p></div>
+  </div>
+
+  <div class="wy-back">
+    <a href="swiper-task.html">← 大国重器光影展(实操页)</a>　<a href="index.html">← 返回课堂实践中心</a>
+  </div>
+  <footer>Swiper AI 协作三任务 · 提示词与对话全记录 · 学生:汤智科 学号:24001010902 · 高级网页设计 · 2026-2027-1</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  // ── 任务一验证轮播 1:第 1 轮 AI 配置(缺陷复现) ──
+  // AI 原配置分页器用类名,这里换成独立 id,避免两个验证轮播互相串
+  new Swiper('#mySw4R1', {
+    loop: true,
+    autoplay: {
+      delay: 3200
+    },
+    pagination: {
+      el: '#pagR1',
+      clickable: true
+    },
+    effect: 'cube'
+  });
+
+  // ── 任务一验证轮播 2(#mySw4):第 2 轮 AI 配置,原样粘贴 ──
+  new Swiper('#mySw4', {
+    loop: true,
+    autoplay: {
+      delay: 3200,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: '#pagFinal',
+      clickable: true
+    },
+    effect: 'cube'
+  });
+
+  // ── 任务二:creative 电影墙实操(与光影展演示四同一套配置) ──
+  new Swiper('#crSw', {
+    effect: 'creative',
+    grabCursor: true,
+    creativeEffect: {
+      prev: {
+        shadow: true,
+        translate: ['-92%', 0, -450],
+        rotate: [0, 0, -10],
+        scale: 0.85
+      },
+      next: {
+        shadow: true,
+        translate: ['92%', 0, -200],
+        scale: 1.12
+      }
+    },
+    navigation: {
+      nextEl: '#crSw .swiper-button-next',
+      prevEl: '#crSw .swiper-button-prev'
+    }
+  });
+
+  // ── 任务三:keyboard 键盘控制实操(第六件展品也在里面) ──
+  new Swiper('#kbSw', {
+    keyboard: true,
+    pagination: {
+      el: '#pagKb',
+      clickable: true
+    }
+  });
+</script>
+</body>
+</html>
