@@ -118,6 +118,16 @@
   .qa .q { color: #b45309; font-size: 14px; }
   .qa .a { color: #4a5568; font-size: 14px; margin-top: 4px; }
 
+  /* 提示词记录附录 */
+  details.pr { border: 1px solid #e3e9f4; border-radius: 8px; padding: 8px 14px; margin: 8px 0; background: #f8fafd; }
+  details.pr summary { cursor: pointer; font-size: 13px; color: #1d4ed8; font-weight: bold; }
+  details.pr .pr-text {
+    font-size: 13px; color: #4a5568; margin-top: 8px; white-space: pre-wrap;
+    background: #fff8e6; border-left: 3px solid #f0a70a; padding: 8px 12px;
+    border-radius: 0 6px 6px 0; font-family: inherit;
+  }
+  details.pr .pr-note { font-size: 12px; color: #7a869c; margin-top: 6px; }
+
   .wy-back { text-align: center; margin-top: 30px; font-size: 14px; }
   .wy-back a { color: #1d4ed8; text-decoration: none; margin: 0 10px; }
   .wy-back a:hover { text-decoration: underline; }
@@ -304,6 +314,85 @@
     <div class="qa"><p class="q">② AI 第一次给的哪里不对,你改了什么?</p><p class="a">图片用了网络占位图链接,断网就裂,也不符合"图片用 AI 生成"的要求;wy-cap 说明层还丢了。我换成本地生成的 swiper-imgs/adora_1.jpg,补全标题与副标题,并把这张展品同步进四个演示轮播。</p></div>
     <div class="qa"><p class="q">③ 新参数的作用?</p><p class="a">keyboard: true 启用键盘控制;它默认带 onlyInViewport: true,只有轮播在可视区域内才响应方向键——光影展页面上有 4 个轮播,这样不会互相抢按键。</p></div>
     <div class="qa"><p class="q">④ 现场把 delay 改成 6000 并解释预期变化?</p><p class="a">autoplay.delay 从 3200 改成 6000(单位毫秒),每张图停留 6 秒才自动翻页,节奏明显变慢;因为配置里 disableOnInteraction: false,手动拖动之后它依然会按 6 秒的节奏继续播。</p></div>
+  </div>
+
+  <!-- ═══════════════ 附录 · 提示词记录 ═══════════════ -->
+  <div class="wy-card">
+    <h2>附录 · 全项目提示词记录<span class="tag">与 project/提示词记录.md 同步</span></h2>
+    <p class="lead">本项目所有会话的真实用户提示词,按时间顺序完整保留(源文件:project/提示词记录.md)。点击任意条目展开原文。</p>
+
+    <details class="pr"><summary>2026-10-22 13:43 · 设定提示词记录规则</summary>
+      <div class="pr-text">设定规则：从现在开始，所有CSS类名，id名、js变量都以页面文件名为前缀，所有的提示词都在执行之前写入文件 project/提示词记录.md，以附加的方式写入，不覆盖之前的内容，写入的内容包括时间、使用的模型、提示词内容。</div>
+      <div class="pr-note">补充确认：完整路径无法作为变量名前缀，改为以页面文件名作为前缀，例如 css3902 页面使用 .css3902-box、#css3902-nav。</div>
+    </details>
+    <details class="pr"><summary>2026-10-22 13:46 · 新建页面挂超链接</summary>
+      <div class="pr-text">设置规则：新建的html文件加入超链接到首页index.html</div>
+    </details>
+    <details class="pr"><summary>2026-10-22 13:51 · iconfont 双页面</summary>
+      <div class="pr-text">做两个html网页iconfont-1.html,inconfont-2.html，分别显示font awesome图标和lucide图标，前者使用字体图标的方式，后者使用svg的方式，相关的cdn文件下载到本目录下的cdn目录。</div>
+    </details>
+    <details class="pr"><summary>2026-10-22 14:03 · 图标页艺术优化</summary>
+      <div class="pr-text">请根据skills下面的frontend-design里面的skill去优化iconfont-1.html和iconfont-2.html两个页面的设计等个，使其更有艺术美感，更优雅。</div>
+    </details>
+    <details class="pr"><summary>2026-10-22 14:25 · 移动端底部导航</summary>
+      <div class="pr-text">根据font目录中的iconfont图标完成移动端的固定的自适应宽度的下导航，导航项目包括4个，完成html网页的设计，网页名称iconfont-3.html和iconfont-4.html分别使用字体图标和svg，包括右上角的数字徽章和红点。</div>
+    </details>
+    <details class="pr"><summary>2026-10-22 22:05 · 提交到 Gitee</summary>
+      <div class="pr-text">`https://gitee.com/tang-zhi-ke/`kokos-warehouse-2提交到这里</div>
+    </details>
+    <details class="pr"><summary>2026-11-02 13:43 · 新闻 Tab 选项卡</summary>
+      <div class="pr-text">请给我新建一个html文件，显示tab选项卡，选项卡分别为国内新闻、省内新闻、国际新闻、最热新闻，国内新闻作为默认选项。就是、文件单独放在js文件夹中，外部引用，js部分tab选项卡可复用。实现代码中包含事件监听，清除所有选项卡的选中状态再设置当前元素的选中状态。</div>
+    </details>
+    <details class="pr"><summary>2026-11-02 14:20 · 汽车导购选项卡(附件)</summary>
+      <div class="pr-text">以这个为题目</div>
+      <div class="pr-note">附件：课堂测试/7 下的 1.jpg～5.jpg（汽车导购选项卡页面，标签为 导购 / 3-9万 / 9-17万 / 17-42万 / SUV，默认选中「导购」），据此还原页面并复用 js/tabs.js。</div>
+    </details>
+    <details class="pr"><summary>2026-11-08 · 生成个人网站</summary>
+      <div class="pr-text">`https://quiet-sable-91785a.netlify.app/`帮我生成一个相似的网站，功能一样，图片为"D:\WXWork\1688857639585001\Cache\File\2026-09\vs\image"，姓名汤智科，学号24001010902</div>
+    </details>
+    <details class="pr"><summary>2026-11-08 · 图片全部本地化</summary>
+      <div class="pr-text">图片全用本地的"D:\WXWork\1688857639585001\Cache\File\2026-09\vs\image"</div>
+    </details>
+    <details class="pr"><summary>2026-11-08 · 去 AI 味</summary>
+      <div class="pr-text">去ai味</div>
+    </details>
+    <details class="pr"><summary>2026-11-08 · 主页面样式统一</summary>
+      <div class="pr-text">主页面还是这个样式，自我介绍网页只有一个链接类似`https://quiet-sable-91785a.netlify.app/introduce/`，上图下文与文字模块与`https://quiet-sable-91785a.netlify.app/picturetext`有的功能一样，打开只有直接跳转没有多个连接，网页模板与网页整体布局课后作业要求一样打开直接跳转无多个连接，整体都按照`https://quiet-sable-91785a.netlify.app/`来做，图片全部替换为"D:\WXWork\1688857639585001\Cache\File\2026-09\vs\image"</div>
+    </details>
+    <details class="pr"><summary>2026-11-08 · 删除网页模板模块</summary>
+      <div class="pr-text">把网页模板模块删除</div>
+    </details>
+    <details class="pr"><summary>2026-11-08 · 上传 Gitee(后改 GitHub)</summary>
+      <div class="pr-text">帮我上传到gitee</div>
+      <div class="pr-note">随后改为上传 GitHub，并要求做成可复用技能。</div>
+    </details>
+    <details class="pr"><summary>2026-11-08 · 创建 push-to-github 技能</summary>
+      <div class="pr-text">创建技能skill：提交到github，将本项目提交commit并push到`https://github.com/Kklouyii`，使用已设置公钥。</div>
+      <div class="pr-note">生成项目技能 push-to-github，仓库为 github.com/Kklouyii/tangzhike0902，SSH 公钥认证。</div>
+    </details>
+    <details class="pr"><summary>2026-11-09 · Swiper AI 三任务作业要求(截图)</summary>
+      <div class="pr-text">任务一 提示词工程师 ★：不写代码，写提示词让 AI 生成 new Swiper('#mySw4', {...}) 配置：① 无缝循环 ② 3.2 秒自动翻页且手动操作后不停止 ③ 圆点分页器可点击 ④ 初始效果 cube，至少迭代 2 轮，保留提示词与 AI 回答并验证。
+任务二 creative 仿写 ★★：官方示例 257-effect-creative.html，为"演示四"新增第 7 个按钮「creative 电影墙」（上一张缩小左移带角度，下一张放大右侧进场），用自己的话回答 prev/next transform 各控制什么。
+任务三 ★★★：光影展添加第六件展品「爱达·魔都号」（首艘国产大型邮轮，2024 年 1 月首航），图片用 AI 生成（横版 16:9），另挑一个课堂讲过的能力（keyboard/mousewheel/zoom/parallax 任选其一）加上，答辩四问。
+11.9 号之前提交到 github，并且给提示词留有访问入口，下次课抽查每个人回答问题。</div>
+    </details>
+    <details class="pr"><summary>2026-11-09 · 任务一两版效果对比</summary>
+      <div class="pr-text">任务一需要第一版效果演示和修改后第二版效果演示在一起对比</div>
+    </details>
+    <details class="pr"><summary>2026-11-09 · 左右双列布局</summary>
+      <div class="pr-text">任务已不需要太繁杂，左边为第一版提示词加效果，右边为修改过的第二版提示词加效果，</div>
+    </details>
+    <details class="pr"><summary>2026-11-09 · 三任务页面内实操</summary>
+      <div class="pr-text">三个任务也都需要能够实操演示</div>
+    </details>
+    <details class="pr"><summary>2026-11-09 · 实机演示与排版修复</summary>
+      <div class="pr-text">怎么看不到实机演示，且网页排版也有问题</div>
+      <div class="pr-note">排查为 jsdelivr CDN 在国内加载失败 + 对比双列缺 min-width:0 被大图撑爆；Swiper 改为本地 swiper/ 目录引用并修复布局。</div>
+    </details>
+    <details class="pr"><summary>2026-11-09 · 真实提示词记录 + 任务一错误加深度</summary>
+      <div class="pr-text">要求之前看提示词记录的文件可以看到真实的提示词记录。任务一的第一版提示此错误有点太简单</div>
+      <div class="pr-note">任务一第 1 版提示词改为"太模糊"版本（无 loop / 无 disableOnInteraction: false / 圆点不可点击 / 分页器用类名，四条需求只撞对两条），第 2 版针对四个错误逐条修复。</div>
+    </details>
   </div>
 
   <div class="wy-back">
