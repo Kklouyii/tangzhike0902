@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诗歌上图下文 · fetch 本地数据服务器</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", sans-serif; background: #f4f6fb; color: #333; line-height: 1.8; padding-bottom: 60px; }
+  .wy-wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  .wy-head { padding: 46px 0 10px; }
+  .wy-badge { display: inline-block; font-size: 12px; color: #4a6fb5; background: #fff; border: 1px solid #c9d6ee; border-radius: 999px; padding: 4px 14px; letter-spacing: 2px; }
+  .wy-head h1 { font-size: 30px; color: #1f2d3d; margin: 16px 0 6px; }
+  .wy-head h1 b { color: #1d4ed8; }
+  .wy-head .meta { color: #7a869c; font-size: 13px; }
+  .wy-head .meta a { color: #1d4ed8; text-decoration: none; }
+
+  /* 上图下文卡片 */
+  #poems { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 22px; }
+  .poem-card {
+    flex: 1 1 280px; min-width: 0; background: #fff; border: 1px solid #e3e9f4;
+    border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(60, 80, 180, .05);
+    display: flex; flex-direction: column;
+  }
+  .poem-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .poem-info { padding: 16px 18px 20px; }
+  .poem-info h3 { font-size: 17px; color: #1f2d3d; margin-bottom: 6px; }
+  .poem-info p { font-size: 14px; color: #4a5568; }
+
+  /* 加载与错误提示 */
+  .msg { margin-top: 22px; border-radius: 8px; padding: 14px 18px; font-size: 14px; }
+  .msg.loading { background: #eaf1fe; border: 1px solid #c9d6ee; color: #1d4ed8; }
+  .msg.error { background: #fdf0f0; border: 1px solid #f3c1c1; color: #a33; }
+
+  .wy-back { text-align: center; margin-top: 30px; font-size: 14px; }
+  .wy-back a { color: #1d4ed8; text-decoration: none; margin: 0 10px; }
+  .wy-back a:hover { text-decoration: underline; }
+  footer { text-align: center; color: #9aa5b8; font-size: 12px; margin-top: 26px; }
+</style>
+</head>
+<body>
+<div class="wy-wrap">
+
+  <div class="wy-head">
+    <span class="wy-badge">Express 数据服务器 · 端口 3004</span>
+    <h1>诗歌<b>上图下文</b> · fetch 本地数据</h1>
+    <p class="meta">学生:汤智科 · 学号:24001010902 · 高级网页设计 · 2026-2027-1 · 数据接口:<a href="http://localhost:3004/api/poems" target="_blank">http://localhost:3004/api/poems →</a></p>
+  </div>
+
+  <!-- 提示区:先显示加载中,fetch 成功后隐藏;失败换成错误提示 -->
+  <div class="msg loading" id="msg">正在连接数据服务器…(需先在 db 文件夹执行 node server.js 启动端口 3004)</div>
+
+  <!-- 上图下文渲染区 -->
+  <div id="poems"></div>
+
+  <div class="wy-back">
+    <a href="project/index.html">← 返回课堂实践中心</a>　<a href="swiper-ai-homework.html">Swiper AI 三任务作业 →</a>
+  </div>
+  <footer>Express + fetch 数据渲染练习 · 图片和文字通过本地数据服务器获取 db/db.json 的 poems 数组 · 学生:汤智科 学号:24001010902</footer>
+</div>
+
+<script>
+  // 课堂练习第 9 步:先 console.log 确认拿到数组,再写渲染逻辑
+  fetch('http://localhost:3004/api/poems')
+    .then(res => res.json())
+    .then(res => {
+      console.log(res);            // F12 控制台确认:{ poems: [...] }
+      const list = res.poems;      // 接口返回的就是 poems 这个数组
+      console.log('拿到 ' + list.length + ' 条诗歌数据');
+
+      // 隐藏加载提示
+      document.getElementById('msg').style.display = 'none';
+
+      // 上图下文结构:img(pic) + h3(title) + p(content)
+      const box = document.getElementById('poems');
+      list.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'poem-card';
+
+        const img = document.createElement('img');
+        img.src = item.pic;
+        img.alt = item.title;
+
+        const info = document.createElement('div');
+        info.className = 'poem-info';
+
+        const h3 = document.createElement('h3');
+        h3.textContent = item.title;
+
+        const p = document.createElement('p');
+        p.textContent = item.content;
+
+        info.appendChild(h3);
+        info.appendChild(p);
+        card.appendChild(img);
+        card.appendChild(info);
+        box.appendChild(card);
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      const msg = document.getElementById('msg');
+      msg.className = 'msg error';
+      msg.textContent = '连接失败:' + err.message + ' —— 请先在 db 文件夹执行 node server.js 启动数据服务器(端口 3004),再刷新本页。';
+    });
+</script>
+</body>
+</html>
