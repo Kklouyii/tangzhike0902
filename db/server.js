@@ -1,10 +1,10 @@
 // 数据服务器:提供 /api/poems 接口,返回 db.json 里的 poems 数组
-// 启动方式:在 db 文件夹里执行 node server.js,端口 3004
+// 启动方式:在 db 文件夹里执行 node server.js,端口 3005
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
-const wy_port = 3004;
+const wy_port = 3005;
 const app = express();
 
 // 允许跨域:poems.html 用 file:// 直接打开也能请求到数据

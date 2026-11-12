@@ -45,11 +45,11 @@
   <div class="wy-head">
     <span class="wy-badge">Express 数据服务器 · 端口 3004</span>
     <h1>诗歌<b>上图下文</b> · fetch 本地数据</h1>
-    <p class="meta">学生:汤智科 · 学号:24001010902 · 高级网页设计 · 2026-2027-1 · 数据接口:<a href="http://localhost:3004/api/poems" target="_blank">http://localhost:3004/api/poems →</a></p>
+    <p class="meta">学生:汤智科 · 学号:24001010902 · 高级网页设计 · 2026-2027-1 · 数据接口:<a href="http://localhost:3005/api/poems" target="_blank">http://localhost:3005/api/poems →</a></p>
   </div>
 
   <!-- 提示区:先显示加载中,fetch 成功后隐藏;失败换成错误提示 -->
-  <div class="msg loading" id="msg">正在连接数据服务器…(需先在 db 文件夹执行 node server.js 启动端口 3004)</div>
+  <div class="msg loading" id="msg">正在连接数据服务器…(需先在 db 文件夹执行 node server.js 启动端口 3005)</div>
 
   <!-- 上图下文渲染区 -->
   <div id="poems"></div>
@@ -62,7 +62,7 @@
 
 <script>
   // 课堂练习第 9 步:先 console.log 确认拿到数组,再写渲染逻辑
-  fetch('http://localhost:3004/api/poems')
+  fetch('http://localhost:3005/api/poems')
     .then(res => res.json())
     .then(res => {
       console.log(res);            // F12 控制台确认:{ poems: [...] }
@@ -102,7 +102,7 @@
       console.error(err);
       const msg = document.getElementById('msg');
       msg.className = 'msg error';
-      msg.textContent = '连接失败:' + err.message + ' —— 请先在 db 文件夹执行 node server.js 启动数据服务器(端口 3004),再刷新本页。';
+      msg.textContent = '连接失败:' + err.message + ' —— 请先在 db 文件夹执行 node server.js 启动数据服务器(端口 3005),再刷新本页。';
     });
 </script>
 </body>
